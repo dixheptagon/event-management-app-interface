@@ -5,11 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Compass, Ticket, User, Search } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
+import LoginSignUpDrawer from "./login.signup.drawer";
 
 export default function Navbar() {
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+
   return (
-    <nav className="w-full bg-[#041846] text-white">
-      <div className="mx-auto !px-6">
+    <nav className="relative z-20 w-full bg-[#041846] text-white">
+      <div className="relative z-20 mx-auto !px-6">
         {/* Top Section */}
         <div className="flex h-16 items-center justify-between gap-6">
           {/* Left: Logo + Search */}
@@ -24,7 +28,9 @@ export default function Navbar() {
               <div className="flex">
                 <Input
                   placeholder="Cari event seru di sini"
-                  className="rounded-r-none border-none bg-[#15306d] !px-4 text-white placeholder:text-gray-400"
+                  className="rounded-r-none border-none bg-[#15306d] !px-4 placeholder:text-gray-400"
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setIsSearchFocused(false)}
                 />
                 <Button className="rounded-l-none bg-blue-600 !px-4 hover:bg-blue-700">
                   <Search className="h-4 w-4" />
@@ -51,13 +57,7 @@ export default function Navbar() {
                 <Ticket className="h-4 w-4" /> My Ticket
               </Link>
             </div>
-            <Button
-              size="icon"
-              variant="outline"
-              className="rounded-full border-blue-400 text-blue-400 hover:bg-blue-700 hover:text-white"
-            >
-              <User className="h-5 w-5" />
-            </Button>
+            <LoginSignUpDrawer />
           </div>
         </div>
 
@@ -77,6 +77,14 @@ export default function Navbar() {
           </Link>
         </div>
       </div>
+
+      {/* Backdrop */}
+      {isSearchFocused && (
+        <div
+          className="fixed inset-0 z-10 bg-black/60"
+          onClick={() => setIsSearchFocused(false)}
+        />
+      )}
     </nav>
   );
 }

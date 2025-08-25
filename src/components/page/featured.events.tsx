@@ -48,8 +48,8 @@ const events: Event[] = [
 
 export default function FeaturedEvents() {
   return (
-    <section className="relative mx-auto !mb-2 w-full max-w-10/12 overflow-hidden shadow-lg">
-      <h2 className="!py-6 text-2xl font-semibold text-white">
+    <section className="relative mx-auto !mb-2 w-full max-w-10/12">
+      <h2 className="!py-6 text-2xl font-bold text-[#041846]">
         Featured Events
       </h2>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -57,12 +57,12 @@ export default function FeaturedEvents() {
           <Link
             href={`/events/${event.id}`}
             key={event.id}
-            className="rounded-2xl bg-white shadow transition hover:shadow-lg"
+            className="transform rounded-2xl bg-white shadow-2xl transition duration-300 ease-in-out hover:scale-105"
           >
             <img
               src={event.image}
               alt={event.title}
-              className="h-35 w-full rounded-t-2xl object-fill"
+              className="h-38 w-full rounded-t-2xl object-fill"
             />
             <div className="!p-4">
               <h3 className="truncate font-medium text-gray-900">

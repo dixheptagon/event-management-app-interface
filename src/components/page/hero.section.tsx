@@ -40,8 +40,8 @@ export default function HeroSection() {
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <main className="relative mx-auto w-full max-w-10/12 overflow-hidden rounded-2xl !pt-12 shadow-lg">
-      <div className="relative !h-[300px] bg-black">
+    <main className="relative mx-auto !mt-12 h-6/12 w-full max-w-10/12">
+      <div className="relative h-[300px] overflow-hidden rounded-2xl bg-black !shadow-2xl">
         <AnimatePresence mode="wait">
           <motion.div
             key={slides[current].id}
@@ -85,13 +85,13 @@ export default function HeroSection() {
       </div>
 
       {/* Pagination Dots */}
-      <div className="flex justify-center gap-2 !py-4">
+      <div className="absolute !-bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}
             className={`h-2 w-6 rounded-full transition-all ${
-              current === i ? "w-8 bg-orange-500" : "bg-gray-300"
+              current === i ? "w-8 bg-[#041846]" : "bg-gray-300"
             }`}
           />
         ))}
