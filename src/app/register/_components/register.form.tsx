@@ -12,20 +12,51 @@ import {
 } from "@/components/ui/select";
 import Link from "next/link";
 import Image from "next/image";
-import { Eye, EyeClosed } from "lucide-react";
+import { Eye, EyeClosed, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import { ValidationRegisterSchema } from "../_schemas/validation.register.schema";
+import { IRegister } from "../_types/register.type";
+import axiosInstance from "@/utils/axios.instance";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 export default function RegisterForm() {
-  // Routing
   const router = useRouter();
 
   // Toggle show password
   const [showPassword, setShowPassword] = useState(false);
   const toggleShow = () => setShowPassword((prev) => !prev);
 
-  // Form Validation
+  // Loading state
+  const [loading, setLoading] = useState(false);
+
+  // Handle Register Form Submision
+  const onHandleRegister = async ({
+    fullname,
+    email,
+    password,
+    role,
+  }: Pick<IRegister, "fullname" | "email" | "password" | "role">) => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.post("api/auth/register", {
+        fullname,
+        email,
+        password,
+        role,
+      });
+      console.log(response);
+      toast.success(response?.data?.message || "Register berhasil!");
+      router.push("/login");
+    } catch (error) {
+      const err = error as AxiosError<{ error: string }>;
+      toast.error(err?.response?.data?.error || "Register gagal!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       fullname: "",
@@ -34,8 +65,9 @@ export default function RegisterForm() {
       role: "",
     },
     validationSchema: ValidationRegisterSchema,
-    onSubmit: ({ fullname, email, password, role }) => {
-      console.log(fullname, email, password, role);
+    onSubmit: async ({ fullname, email, password, role }) => {
+      await onHandleRegister({ fullname, email, password, role });
+      formik.resetForm();
     },
   });
 
@@ -53,6 +85,7 @@ export default function RegisterForm() {
         </div>
 
         <form onSubmit={formik.handleSubmit} className="space-y-4">
+          {/* fullname */}
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-700">
               Full Name
@@ -73,6 +106,7 @@ export default function RegisterForm() {
             ) : null}
           </div>
 
+          {/* email */}
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-700">
               Email
@@ -91,6 +125,7 @@ export default function RegisterForm() {
             ) : null}
           </div>
 
+          {/* password */}
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-700">
               Password
@@ -121,7 +156,8 @@ export default function RegisterForm() {
               </div>
             ) : null}
           </div>
-          {/* Role*/}
+
+          {/* role */}
           <div>
             <div className="mt-4 flex items-center">
               <label className="mr-5 mb-1 block text-sm font-medium text-slate-700">
@@ -130,7 +166,6 @@ export default function RegisterForm() {
               <Select
                 value={formik.values.role}
                 onValueChange={(value) => formik.setFieldValue("role", value)}
-                required
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select role" />
@@ -148,8 +183,22 @@ export default function RegisterForm() {
             ) : null}
           </div>
 
-          <Button type="submit" className="w-full bg-[#041846]">
-            Sign Up
+          {/* submit button with loading */}
+          <Button
+            type="submit"
+            className="w-full bg-[#041846]"
+            disabled={loading}
+          >
+            {loading ? (
+              // Animated loading spinner
+
+              <span className="flex items-center justify-center">
+                <Loader className="mr-2 animate-spin [animation-delay:-0.5ss]" />
+                Loading...
+              </span>
+            ) : (
+              "Sign Up"
+            )}
           </Button>
         </form>
 
