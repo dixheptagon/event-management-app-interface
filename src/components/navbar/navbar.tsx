@@ -9,7 +9,12 @@ import { useState } from "react";
 import LoginSignUpDrawer from "./login.signup.drawer";
 import { usePathname } from "next/navigation";
 
-const AuthRouter = ["/login", "/register"];
+const AuthRouter = [
+  "/login",
+  "/register",
+  "/resend-verification",
+  "/verification-success",
+];
 export default function Navbar() {
   const pathName = usePathname();
 
@@ -19,7 +24,7 @@ export default function Navbar() {
     return null;
   }
   return (
-    <nav className="relative z-20 w-full bg-[#041846] text-white">
+    <nav className="relative w-full bg-[#041846] text-white">
       <div className="relative z-20 mx-auto !px-6">
         {/* Top Section */}
         <div className="flex h-16 items-center justify-between gap-6">

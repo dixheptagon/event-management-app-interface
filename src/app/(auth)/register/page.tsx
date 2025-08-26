@@ -1,4 +1,4 @@
-import RegisterForm from "@/app/register/_components/register.form";
+import RegisterForm from "./_components/register.form";
 import React from "react";
 import { ToastContainer } from "react-toastify";
 
