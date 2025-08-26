@@ -40,8 +40,8 @@ export default function HeroSection() {
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <main className="relative mx-auto !mt-12 h-6/12 w-full max-w-10/12">
-      <div className="relative h-[300px] overflow-hidden rounded-2xl bg-black !shadow-2xl">
+    <main className="relative mx-auto w-full max-w-10/12 overflow-hidden pt-6 shadow-lg">
+      <div className="relative h-[320px] rounded-2xl bg-black">
         <AnimatePresence mode="wait">
           <motion.div
             key={slides[current].id}
@@ -59,7 +59,7 @@ export default function HeroSection() {
               priority
             />
             {/* CTA Button */}
-            <div className="absolute right-6 bottom-6">
+            <div className="absolute right-4 bottom-4">
               <button className="rounded-lg bg-amber-600 px-4 py-2 text-white shadow transition hover:bg-amber-700">
                 {slides[current].cta}
               </button>
@@ -72,7 +72,7 @@ export default function HeroSection() {
           onClick={prevSlide}
           className="absolute top-1/2 left-1 h-8 w-8 -translate-y-1/2 rounded-full bg-white p-2 text-black shadow transition hover:scale-110"
         >
-          <ArrowLeft className="h-4 w-4 translate-x-1/2" />
+          <ArrowLeft className="h-4 w-4" />
         </button>
 
         {/* Next Button */}
@@ -80,12 +80,12 @@ export default function HeroSection() {
           onClick={nextSlide}
           className="absolute top-1/2 right-1 h-8 w-8 -translate-y-1/2 rounded-full bg-white p-2 text-black shadow transition hover:scale-110"
         >
-          <ArrowRight className="h-4 w-4 translate-x-1/2" />
+          <ArrowRight className="h-4 w-4" />
         </button>
       </div>
 
       {/* Pagination Dots */}
-      <div className="absolute !-bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
+      <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-2 rounded-xl bg-white/30 p-2">
         {slides.map((_, i) => (
           <button
             key={i}

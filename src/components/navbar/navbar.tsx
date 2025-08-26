@@ -7,10 +7,17 @@ import { Compass, Ticket, User, Search } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import LoginSignUpDrawer from "./login.signup.drawer";
+import { usePathname } from "next/navigation";
 
+const AuthRouter = ["/login", "/register"];
 export default function Navbar() {
+  const pathName = usePathname();
+
   const [isSearchFocused, setIsSearchFocused] = useState(false);
 
+  if (AuthRouter.includes(pathName)) {
+    return null;
+  }
   return (
     <nav className="relative z-20 w-full bg-[#041846] text-white">
       <div className="relative z-20 mx-auto !px-6">
@@ -20,7 +27,7 @@ export default function Navbar() {
           <div className="flex flex-1 items-center gap-6">
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
-              <Image src="/logo.png" alt="Logo" width={150} height={150} />
+              <Image src="/logo.png" alt="Logo" width={120} height={120} />
             </Link>
 
             {/* Search Bar */}
