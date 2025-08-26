@@ -13,8 +13,13 @@ import { ILogin } from "../_types/login.type";
 import axiosInstance from "@/utils/axios.instance";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
+import useAuthStore from "@/stores/auth.store";
 
 export default function LoginForm() {
+  // use Global State
+  const { setAuth } = useAuthStore();
+
+  // Router
   const router = useRouter();
 
   // Toggle show password
@@ -35,14 +40,19 @@ export default function LoginForm() {
         email,
         password,
       });
-      toast.success(response?.data?.message || "Login successful!");
 
-      // Store token if needed
-      if (response.data.data?.token) {
-        localStorage.setItem("token", response.data.data.token);
-      }
+      // Save token to global state
+      setAuth({
+        token: response?.data?.data?.token,
+        fullname: response?.data?.data?.user?.fullname,
+        role: response?.data?.data?.user?.role,
+      });
 
-      router.push("/dashboard");
+      console.log(response);
+      toast.success(response?.data?.message || "Login successful!", {
+        onClose: () => router.push("/"),
+        autoClose: 3000, // toast ilang otomatis setelah 3 detik
+      });
     } catch (error) {
       const err = error as AxiosError<{ error: string; message: string }>;
       toast.error(
@@ -77,6 +87,11 @@ export default function LoginForm() {
           </h1>
           <p className="mb-4 text-sm text-gray-600">
             Sign in to your account and continue your event journey!
+          </p>
+          <p className="mb-4 rounded bg-yellow-100 p-2 text-sm text-gray-600">
+            <strong>⏰ Important:</strong> You must be verified before logging
+            in. Please check your email for verification instructions, email
+            verification will expire in <strong>2 hours</strong>.
           </p>
         </div>
 

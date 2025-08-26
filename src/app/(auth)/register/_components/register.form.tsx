@@ -46,11 +46,18 @@ export default function RegisterForm() {
         password,
         role,
       });
-      toast.success(response?.data?.message || "Register berhasil!");
-      router.push("/login");
+
+      // Toast success message
+      toast.success(response?.data?.message || "Register successful!", {
+        onClose: () => router.push("/login"),
+        autoClose: 3000, // toast ilang otomatis setelah 3 detik
+      });
     } catch (error) {
       const err = error as AxiosError<{ error: string }>;
-      toast.error(err?.response?.data?.error || "Register gagal!");
+      toast.error(
+        err?.response?.data?.error ||
+          "Register failed! Please try again later.",
+      );
     } finally {
       setLoading(false);
     }
