@@ -1,5 +1,5 @@
-import HeroSection from "@/components/page/hero.section";
-import FeaturedEvents from "@/components/page/featured.events";
+import HeroSection from "@/components/shared/landing-page/hero.section";
+import FeaturedEvents from "@/components/shared/landing-page/featured.events";
 
 export default function Home() {
   return (

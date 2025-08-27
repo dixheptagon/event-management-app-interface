@@ -9,20 +9,20 @@ import { useState } from "react";
 import LoginSignUpDrawer from "./login.signup.drawer";
 import { usePathname } from "next/navigation";
 
-const AuthRouter = [
-  "/login",
-  "/register",
-  "/resend-verification",
-  "/verification-success",
-];
+// const AuthRouter = [
+//   "/login",
+//   "/register",
+//   "/resend-verification",
+//   "/verification-success",
+// ];
 export default function Navbar() {
   const pathName = usePathname();
 
   const [isSearchFocused, setIsSearchFocused] = useState(false);
 
-  if (AuthRouter.includes(pathName)) {
-    return null;
-  }
+  // if (AuthRouter.includes(pathName)) {
+  //   return null;
+  // }
   return (
     <>
       <nav className="relative z-20 w-full bg-[#041846] text-white">
