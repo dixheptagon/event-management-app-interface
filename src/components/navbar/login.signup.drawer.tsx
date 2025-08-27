@@ -46,7 +46,7 @@ export default function LoginSignUpDrawer() {
 
         <SheetClose asChild>
           <Button className="absolute top-4 right-4 rounded-full hover:bg-gray-300">
-            <X className="h-8 w-8" />
+            <X className="h-4 w-4" />
           </Button>
         </SheetClose>
 

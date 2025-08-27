@@ -51,7 +51,7 @@ export default function LoginForm() {
       console.log(response);
       toast.success(response?.data?.message || "Login successful!", {
         onClose: () => router.push("/"),
-        autoClose: 3000, // toast ilang otomatis setelah 3 detik
+        autoClose: 1000, // toast ilang otomatis setelah 1 detik
       });
     } catch (error) {
       const err = error as AxiosError<{ error: string; message: string }>;

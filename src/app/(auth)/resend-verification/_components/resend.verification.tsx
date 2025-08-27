@@ -33,6 +33,7 @@ export default function ResendVerificationForm() {
           email,
         },
       );
+      console.log(response);
       toast.success(response?.data?.message || "Verification email sent!");
       setSuccess(true);
     } catch (error) {
@@ -160,8 +161,8 @@ export default function ResendVerificationForm() {
                     Verification email sent!
                   </p>
                   <p className="mt-1 text-sm text-green-700">
-                    The email will expire in 24 hours. If you don't see it,
-                    check your spam folder.
+                    The email will expire in 2 hours. If you don't see it, check
+                    your spam folder.
                   </p>
                 </div>
               </div>

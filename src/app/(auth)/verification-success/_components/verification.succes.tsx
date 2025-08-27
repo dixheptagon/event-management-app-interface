@@ -12,8 +12,10 @@ import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 
 export default function VerifyEmailPage() {
-  const searchParams = useSearchParams();
   const router = useRouter();
+
+  // Get the verification token from the URL
+  const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
   const [loading, setLoading] = useState(true);
@@ -23,6 +25,7 @@ export default function VerifyEmailPage() {
   useEffect(() => {
     if (token) {
       verifyEmail(token);
+      console.log(token);
     } else {
       setError("Invalid verification link");
       setLoading(false);
@@ -31,11 +34,18 @@ export default function VerifyEmailPage() {
 
   const verifyEmail = async (verificationToken: string) => {
     try {
+      console.log(">>>");
       const response = await axiosInstance.get(
         `api/auth/verify-email?token=${verificationToken}`,
       );
+      console.log(response);
       setSuccess(true);
-      toast.success(response.data.message);
+      toast.success(response?.data?.message || "Verification successful!", {
+        onClose: () => router.push("/login"),
+        autoClose: 3000,
+      });
+
+      //
     } catch (error) {
       const err = error as AxiosError<{
         error: string;
