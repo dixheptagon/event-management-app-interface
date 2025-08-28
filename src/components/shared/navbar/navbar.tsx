@@ -3,79 +3,92 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Compass, Ticket, User, Search } from "lucide-react";
+import { Compass, Ticket, User, Search, Menu, X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import LoginSignUpDrawer from "./login.signup.drawer";
 import { usePathname } from "next/navigation";
+import UserMenuNavbar from "./navbar.items";
 
-// const AuthRouter = [
-//   "/login",
-//   "/register",
-//   "/resend-verification",
-//   "/verification-success",
-// ];
 export default function Navbar() {
-  const pathName = usePathname();
-
+  const pathname = usePathname();
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // if (AuthRouter.includes(pathName)) {
-  //   return null;
-  // }
   return (
     <>
       <nav className="relative z-20 w-full bg-[#041846] text-white">
-        <div className="relative mx-auto px-6">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Section */}
-          <div className="flex h-16 items-center justify-between gap-6">
-            {/* Left: Logo + Search */}
-            <div className="flex flex-1 items-center gap-6">
-              {/* Logo */}
+          <div className="flex h-16 items-center justify-between gap-4">
+            {/* Logo (Always visible) */}
+            <div className="flex items-center gap-4">
               <Link href="/" className="flex-shrink-0">
-                <Image src="/logo.png" alt="Logo" width={120} height={120} />
+                <Image
+                  src="/logo.png"
+                  alt="Logo"
+                  width={100}
+                  height={40}
+                  priority
+                />
               </Link>
+            </div>
 
-              {/* Search Bar */}
-              <div className="max-w-xl flex-1">
-                <div className="flex">
-                  <Input
-                    placeholder="Cari event seru di sini"
-                    className="rounded-r-none border-none bg-[#15306d] px-4 placeholder:text-gray-400"
-                    onFocus={() => setIsSearchFocused(true)}
-                    onBlur={() => setIsSearchFocused(false)}
-                  />
-                  <Button className="rounded-l-none bg-blue-600 px-4 hover:bg-blue-700">
-                    <Search className="h-4 w-4" />
-                  </Button>
-                </div>
+            {/* Desktop Search Bar (Only on md+) */}
+            <div className="hidden max-w-xl flex-1 md:block">
+              <div className="flex">
+                <Input
+                  placeholder="Cari event seru di sini"
+                  className="rounded-r-none border-none bg-[#15306d] px-4 placeholder:text-gray-400"
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setIsSearchFocused(false)}
+                />
+                <Button className="rounded-l-none bg-blue-600 hover:bg-blue-700">
+                  <Search className="h-4 w-4" />
+                  <span className="sr-only">Search</span>
+                </Button>
               </div>
             </div>
 
-            {/* Right Menu */}
-            <div className="flex items-center gap-6">
-              <div className="hidden gap-6 hover:text-blue-500 md:flex">
-                <Link
-                  href="/events"
-                  className="flex items-center gap-2 text-sm font-medium"
-                >
-                  <Compass className="h-4 w-4" /> Explore Events
-                </Link>
-              </div>
-              <div className="hidden gap-6 hover:text-blue-500 md:flex">
-                <Link
-                  href="/tickets"
-                  className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
-                >
-                  <Ticket className="h-4 w-4" /> My Ticket
-                </Link>
-              </div>
-              <LoginSignUpDrawer />
+            {/* Right Section: Desktop Menu */}
+            <UserMenuNavbar />
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMenuOpen((prev) => !prev)}
+                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              >
+                {isMenuOpen ? (
+                  <X className="h-5 w-5" />
+                ) : (
+                  <Menu className="h-5 w-5" />
+                )}
+              </Button>
             </div>
           </div>
 
-          {/* Hashtags */}
-          <div className="flex gap-4 pb-2 text-sm text-blue-200">
+          {/* Mobile Search Bar (Visible when menu is open or always on focus) */}
+          <div className="md:hidden">
+            {isMenuOpen && (
+              <div className="mt-2 mb-4 flex gap-2">
+                <Input
+                  placeholder="Cari event..."
+                  className="flex-1 rounded-r-none border-none bg-[#15306d] px-4 placeholder:text-gray-400"
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setIsSearchFocused(false)}
+                />
+                <Button className="rounded-l-none bg-blue-600 hover:bg-blue-700">
+                  <Search className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
+          </div>
+
+          {/* Hashtags - Responsive Wrap */}
+          <div className="flex flex-wrap gap-3 pb-4 text-sm text-blue-200 md:pb-2">
             <Link href="#" className="hover:text-white">
               #Promo_Indodana
             </Link>
@@ -89,14 +102,43 @@ export default function Navbar() {
               #LoketAttraction
             </Link>
           </div>
+
+          {/* Mobile Menu Dropdown */}
+          {isMenuOpen && (
+            <div className="space-y-4 pb-4 md:hidden">
+              <Link
+                href="/events"
+                className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Compass className="h-4 w-4" /> Explore Events
+              </Link>
+              <Link
+                href="/tickets"
+                className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Ticket className="h-4 w-4" /> My Ticket
+              </Link>
+              <div onClick={() => setIsMenuOpen(false)}></div>
+            </div>
+          )}
         </div>
       </nav>
 
-      {/* Backdrop */}
+      {/* Backdrop for Search Focus */}
       {isSearchFocused && (
         <div
           className="fixed inset-0 z-10 bg-black/60"
           onClick={() => setIsSearchFocused(false)}
+        />
+      )}
+
+      {/* Backdrop for Mobile Menu */}
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 z-10 bg-black/60 md:hidden"
+          onClick={() => setIsMenuOpen(false)}
         />
       )}
     </>

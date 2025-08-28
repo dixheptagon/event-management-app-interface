@@ -1,3 +1,4 @@
+// components/featured-events.tsx
 "use client";
 
 import Link from "next/link";
@@ -48,29 +49,37 @@ const events: Event[] = [
 
 export default function FeaturedEvents() {
   return (
-    <section className="relative mx-auto !mb-2 w-full max-w-10/12">
-      <h2 className="!py-6 text-2xl font-bold text-[#041846]">
+    <section className="mx-auto w-full max-w-[90%] sm:max-w-2xl md:max-w-4xl lg:max-w-7xl">
+      {/* Judul */}
+      <h2 className="text-2xl font-bold text-[#041846] sm:text-3xl">
         Featured Events
       </h2>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+      {/* Grid Events */}
+      <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {events.map((event) => (
           <Link
             href={`/events/${event.id}`}
             key={event.id}
-            className="transform rounded-2xl bg-white shadow-2xl transition duration-300 ease-in-out hover:scale-105"
+            className="group rounded-2xl bg-white shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl"
           >
+            {/* Gambar */}
             <img
               src={event.image}
               alt={event.title}
-              className="h-38 w-full rounded-t-2xl object-fill"
+              className="h-48 w-full rounded-t-2xl object-cover object-center"
             />
-            <div className="!p-4">
-              <h3 className="truncate font-medium text-gray-900">
+
+            {/* Konten */}
+            <div className="p-4">
+              <h3 className="line-clamp-2 min-h-[3.5rem] text-base font-medium text-gray-900 group-hover:text-blue-600">
                 {event.title}
               </h3>
-              <p className="text-sm text-gray-500">{event.date}</p>
-              <p className="mt-1 font-semibold">{event.price}</p>
-              <hr className="!my-2" />
+              <p className="mt-1 text-sm text-gray-500">{event.date}</p>
+              <p className="mt-1 text-lg font-semibold text-gray-800">
+                {event.price}
+              </p>
+              <hr className="my-2 border-gray-200" />
               <p className="text-sm text-gray-600">{event.organizer}</p>
             </div>
           </Link>
