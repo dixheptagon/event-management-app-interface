@@ -37,8 +37,6 @@ const useAuthStore = create<TUseAuthStore>()(
       name: "authentication",
       partialize: (state: TUseAuthStore) => ({
         token: state.token,
-        fullname: state.fullname,
-        role: state.role,
       }),
     },
   ),

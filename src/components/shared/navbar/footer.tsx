@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Footer() {
   return (
-    <footer className="mt-350 bg-[#041846] text-white md:mt-150 lg:mt-50">
+    <footer className="bg-[#041846] text-white">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {/* Kolom 1: Logo & Deskripsi */}

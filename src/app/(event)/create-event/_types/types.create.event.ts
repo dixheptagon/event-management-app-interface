@@ -12,7 +12,8 @@ export interface EventFormValues {
   description: string;
   category: string;
   date: string;
-  time: string;
+  startTime: string;
+  endTime: string;
   location: string;
   venue: string;
   capacity: number | "";

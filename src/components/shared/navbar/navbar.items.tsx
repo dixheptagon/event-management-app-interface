@@ -19,19 +19,19 @@ export default function UserMenuNavbar() {
         <Compass className="h-4 w-4" /> Explore Events
       </Link>
 
-      {role === "customer" ? (
-        <Link
-          href="/tickets"
-          className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
-        >
-          <Ticket className="h-4 w-4" /> My Ticket
-        </Link>
-      ) : (
+      {role === "event_organizer" ? (
         <Link
           href="/create-event"
           className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
         >
           <CalendarPlus className="h-4 w-4" /> Create Event
+        </Link>
+      ) : (
+        <Link
+          href="/tickets"
+          className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
+        >
+          <Ticket className="h-4 w-4" /> My Ticket
         </Link>
       )}
 

@@ -14,6 +14,15 @@ import TicketTypesSection from "./ticket.types.section";
 import ImageUploadField from "./image.upload.field";
 import TagsField from "./tags.field";
 import EventSummary from "./event.summary";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 // Main Component
 const CreateEventPage: React.FC = () => {
@@ -74,7 +83,7 @@ const CreateEventPage: React.FC = () => {
             {/* Header */}
             <div className="border-b border-gray-200 bg-white">
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between py-6">
+                <div className="flex flex-col items-center justify-between gap-3 py-6 md:flex-row">
                   <div>
                     <h1 className="text-3xl font-bold text-gray-900">
                       Create New Event
@@ -138,14 +147,14 @@ const CreateEventPage: React.FC = () => {
                       <FormField
                         label="Category"
                         name="category"
-                        as="select"
+                        as="shadcn-select"
                         required
                       >
                         <option value="">Select a category</option>
                         {EVENT_CATEGORIES.map((category) => (
-                          <option key={category} value={category}>
+                          <SelectItem key={category} value={category}>
                             {category}
-                          </option>
+                          </SelectItem>
                         ))}
                       </FormField>
                     </div>
@@ -160,15 +169,24 @@ const CreateEventPage: React.FC = () => {
 
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       <FormField
+                        className="md:col-span-2"
                         label="Date"
                         name="date"
                         type="date"
+                        as="shadcn-datepicker"
                         required
                       />
 
                       <FormField
-                        label="Time"
-                        name="time"
+                        label="Start Time"
+                        name="startTime"
+                        type="time"
+                        required
+                      />
+
+                      <FormField
+                        label="End Time"
+                        name="endTime"
                         type="time"
                         required
                       />

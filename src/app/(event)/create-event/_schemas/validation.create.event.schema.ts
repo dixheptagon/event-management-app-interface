@@ -21,8 +21,12 @@ export const ValidationCreateEventSchema = Yup.object().shape({
     .required("Date is required")
     .min(new Date(), "Event date cannot be in the past"),
 
-  time: Yup.string()
-    .required("Time is required")
+  startTime: Yup.string()
+    .required("Start time is required")
+    .matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, "Please enter a valid time"),
+
+  endTime: Yup.string()
+    .required("End time is required")
     .matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, "Please enter a valid time"),
 
   location: Yup.string()

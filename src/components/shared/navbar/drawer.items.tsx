@@ -27,7 +27,7 @@ export default function UserMenuDrawer() {
       ) : (
         <Link
           href="/" // Ganti dengan URL yang sesuai
-          className="flex items-center justify-between gap-3 py-2 text-sm font-medium text-blue-600 hover:bg-gray-200"
+          className="flex flex-col gap-3 rounded-md p-2 text-sm font-medium text-blue-600 hover:bg-gray-200 hover:text-blue-700"
         >
           <span>Switch Account to </span>
           <div className="flex items-center gap-3">
@@ -40,12 +40,22 @@ export default function UserMenuDrawer() {
       <Separator className="my-2 text-gray-500" />
 
       {/* Menu Items */}
-      <Link
-        href="/events"
-        className="block rounded-md px-2 py-3 text-sm font-medium text-gray-700 hover:bg-gray-200"
-      >
-        Explore Events
-      </Link>
+      {role === "customer" ? (
+        <Link
+          href="/events"
+          className="block rounded-md px-2 py-3 text-sm font-medium text-gray-700 hover:bg-gray-200"
+        >
+          Explore Events
+        </Link>
+      ) : (
+        <Link
+          href="/create-event"
+          className="block rounded-md px-2 py-3 text-sm font-medium text-gray-700 hover:bg-gray-200"
+        >
+          Create Event
+        </Link>
+      )}
+
       <Link
         href="/tickets"
         className="block rounded-md px-2 py-3 text-sm font-medium text-gray-700 hover:bg-gray-200"
