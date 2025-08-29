@@ -1,11 +1,17 @@
-export interface IRegister {
-  id: string;
+export interface IRegisterInput {
   fullname: string;
   email: string;
   password: string;
-  role: string; // "customer" | "admin" | dsb, sesuai enum lo
+  role: string;
   referralCode?: string | null;
-  points: number;
+}
+
+export interface IRegister extends IRegisterInput {
+  id: string;
+
+  referralPoints: number;
+  referredBy?: string | null;
+
   isVerified: boolean;
   verificationToken?: string | null;
   verificationExpiry?: Date | null;

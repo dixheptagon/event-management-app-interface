@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,16 +13,22 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { AlertCircle, Eye, EyeClosed, Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useFormik } from "formik";
 import { ValidationRegisterSchema } from "../_schemas/validation.register.schema";
-import { IRegister } from "../_types/register.type";
+import { IRegisterInput } from "../_types/register.type";
 import axiosInstance from "@/utils/axios.instance";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
+import { useReferralValidation } from "../_hooks/useReferralValidation";
+import ReferralInput from "./referral.input";
 
 export default function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Get referral code from URL params
+  const referralFromParams = searchParams.get("referral") || "";
 
   // Toggle show password
   const [showPassword, setShowPassword] = useState(false);
@@ -31,27 +37,76 @@ export default function RegisterForm() {
   // Loading state
   const [loading, setLoading] = useState(false);
 
+  // Referral validation hook
+  const {
+    referralCode,
+    setReferralCode,
+    validationStatus,
+    errorMessage,
+    validateReferral,
+    resetValidation,
+  } = useReferralValidation();
+
+  // Set referral code from URL params on mount
+  useEffect(() => {
+    if (referralFromParams) {
+      setReferralCode(referralFromParams);
+      // Auto-validate if referral code comes from params
+      setTimeout(() => {
+        validateReferral();
+      }, 500);
+    }
+  }, [referralFromParams]);
+
   // Handle Register Form Submision
   const onHandleRegister = async ({
     fullname,
     email,
     password,
     role,
-  }: Pick<IRegister, "fullname" | "email" | "password" | "role">) => {
+    referralCode,
+  }: IRegisterInput) => {
+    console.log("Payload yang dikirim:", {
+      fullname,
+      email,
+      password,
+      role,
+      referralCode,
+    });
+    console.log("validationStatus:", validationStatus);
+    console.log("referralCode:", referralCode);
+
     setLoading(true);
     try {
-      const response = await axiosInstance.post("api/auth/register", {
+      const payload: any = {
         fullname,
         email,
         password,
         role,
-      });
+      };
+
+      // Include referral code only if it's validated successfully
+      if (referralCode && validationStatus === "success") {
+        payload.usedReferralCode = referralCode;
+        console.log("✅ referralCode ditambahkan ke payload:", referralCode);
+      }
+
+      const response = await axiosInstance.post("api/auth/register", payload);
+      console.log("Response:", response);
 
       // Toast success message
       toast.success(response?.data?.message || "Register successful!", {
         onClose: () => router.push("/login"),
-        autoClose: 3000, // toast ilang otomatis setelah 3 detik
+        autoClose: 3000,
       });
+      // Toast succes get referral coupon
+      toast.success(
+        response?.data?.data?.welcomeBonus?.message + " ✨🎉" ||
+          "You received a welcome bonus! ✨🎉",
+        {
+          autoClose: 3000,
+        },
+      );
     } catch (error) {
       const err = error as AxiosError<{ error: string }>;
       toast.error(
@@ -72,10 +127,27 @@ export default function RegisterForm() {
     },
     validationSchema: ValidationRegisterSchema,
     onSubmit: async ({ fullname, email, password, role }) => {
-      await onHandleRegister({ fullname, email, password, role });
+      await onHandleRegister({
+        fullname,
+        email,
+        password,
+        role,
+        referralCode: validationStatus === "success" ? referralCode : undefined,
+      });
       formik.resetForm();
+
+      // Reset referral code
+      setReferralCode("");
+      resetValidation();
     },
   });
+
+  const handleReferralInputChange = () => {
+    // Reset validation status when user types
+    if (validationStatus !== "idle") {
+      resetValidation();
+    }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-200">
@@ -197,6 +269,16 @@ export default function RegisterForm() {
               </div>
             ) : null}
           </div>
+
+          {/* Referral Code Input */}
+          <ReferralInput
+            referralCode={referralCode}
+            setReferralCode={setReferralCode}
+            validationStatus={validationStatus}
+            errorMessage={errorMessage}
+            onValidate={validateReferral}
+            onInputChange={handleReferralInputChange}
+          />
 
           {/* submit button with loading */}
           <Button
