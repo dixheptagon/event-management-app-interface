@@ -48,11 +48,7 @@ export default function LoginForm() {
         role: response?.data?.data?.user?.role,
       });
 
-      console.log(response);
-      toast.success(response?.data?.message || "Login successful!", {
-        onClose: () => router.push("/"),
-        autoClose: 1000, // toast ilang otomatis setelah 1 detik
-      });
+      router.push("/");
     } catch (error) {
       const err = error as AxiosError<{ error: string; message: string }>;
       toast.error(

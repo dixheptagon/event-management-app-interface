@@ -66,16 +66,6 @@ export default function RegisterForm() {
     role,
     referralCode,
   }: IRegisterInput) => {
-    console.log("Payload yang dikirim:", {
-      fullname,
-      email,
-      password,
-      role,
-      referralCode,
-    });
-    console.log("validationStatus:", validationStatus);
-    console.log("referralCode:", referralCode);
-
     setLoading(true);
     try {
       const payload: any = {
@@ -88,11 +78,9 @@ export default function RegisterForm() {
       // Include referral code only if it's validated successfully
       if (referralCode && validationStatus === "success") {
         payload.usedReferralCode = referralCode;
-        console.log("✅ referralCode ditambahkan ke payload:", referralCode);
       }
 
       const response = await axiosInstance.post("api/auth/register", payload);
-      console.log("Response:", response);
 
       // Toast success message
       toast.success(response?.data?.message || "Register successful!", {
