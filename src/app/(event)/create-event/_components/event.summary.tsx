@@ -16,7 +16,12 @@ const EventSummary: React.FC<{
   const priceRange =
     prices.length > 0
       ? `IDR ${Math.min(...prices).toLocaleString()} - ${Math.max(...prices).toLocaleString()}`
-      : "Not set";
+      : "Free";
+
+  // Deteksi jenis event
+  const isAllFree = ticketTypes.every((t) => t.ticketType === "free");
+  const isAllPaid = ticketTypes.every((t) => t.ticketType === "paid");
+  const pricingType = isAllFree ? "Free" : isAllPaid ? "Paid" : "Mixed";
 
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -32,6 +37,20 @@ const EventSummary: React.FC<{
         <div className="flex justify-between">
           <span className="text-gray-600">Total Capacity:</span>
           <span className="font-medium">{totalCapacity.toLocaleString()}</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-gray-600">Pricing:</span>
+          <span
+            className={`font-medium ${
+              pricingType === "Free"
+                ? "text-green-600"
+                : pricingType === "Paid"
+                  ? "text-blue-600"
+                  : "text-orange-600"
+            }`}
+          >
+            {pricingType}
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-600">Price Range:</span>

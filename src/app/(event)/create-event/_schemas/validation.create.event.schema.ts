@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 import { EVENT_CATEGORIES } from "../_constants/constants.create.event";
+import { PromotionValidationSchema } from "./validation.promotion.field.schema";
 
 // Yup Validation Schema
 export const ValidationCreateEventSchema = Yup.object().shape({
@@ -17,9 +18,19 @@ export const ValidationCreateEventSchema = Yup.object().shape({
     .required("Category is required")
     .oneOf(EVENT_CATEGORIES, "Please select a valid category"),
 
-  date: Yup.date()
-    .required("Date is required")
-    .min(new Date(), "Event date cannot be in the past"),
+  startDate: Yup.string().required("Start date is required"),
+  endDate: Yup.string()
+    .nullable()
+    .required("End date is required")
+    .test(
+      "is-after-start",
+      "End date must be the same or after start date",
+      function (endDate) {
+        const { startDate } = this.parent;
+        if (!startDate || !endDate) return true; // biarkan required handle
+        return new Date(endDate) >= new Date(startDate);
+      },
+    ),
 
   startTime: Yup.string()
     .required("Start time is required")
@@ -50,10 +61,6 @@ export const ValidationCreateEventSchema = Yup.object().shape({
         name: Yup.string()
           .required("Ticket name is required")
           .min(2, "Ticket name must be at least 2 characters"),
-        price: Yup.number()
-          .required("Price is required")
-          .min(0, "Price cannot be negative")
-          .max(100000000, "Price seems too high"),
         quantity: Yup.number()
           .required("Quantity is required")
           .positive("Quantity must be positive")
@@ -63,15 +70,33 @@ export const ValidationCreateEventSchema = Yup.object().shape({
           500,
           "Description must be less than 500 characters",
         ),
+        ticketType: Yup.string()
+          .required("Ticket type is required")
+          .oneOf(["paid", "free"], "Please select a valid ticket type"),
+
+        price: Yup.number()
+          .when("ticketType", {
+            is: "paid",
+            then: (schema) =>
+              schema
+                .required("Price is required for paid tickets")
+                .min(0, "Price cannot be negative")
+                .max(10000000, "Price seems too large"),
+            otherwise: (schema) => schema.notRequired().nullable(),
+          })
+          .transform((value) => (isNaN(value) ? undefined : value)), // handle NaN
       }),
     )
     .min(1, "At least one ticket type is required")
     .required(),
 
-  tags: Yup.array().of(Yup.string()).max(10, "Maximum 10 tags allowed"),
+  tags: Yup.array()
+    .of(Yup.string())
+    .min(1, "At least one tag is required")
+    .max(10, "Maximum 10 tags allowed"),
 
   image: Yup.mixed()
-    .nullable()
+    .required("Image is required")
     .test("fileSize", "File size too large (max 5MB)", (value) => {
       if (!value) return true;
       return (value as File).size <= 5 * 1024 * 1024; // 5MB
@@ -82,4 +107,6 @@ export const ValidationCreateEventSchema = Yup.object().shape({
         (value as File).type,
       );
     }),
+
+  promotions: Yup.array().of(PromotionValidationSchema),
 });

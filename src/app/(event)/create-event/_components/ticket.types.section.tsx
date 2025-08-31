@@ -2,6 +2,8 @@ import { Formik, Form, Field, FieldArray, FormikProps } from "formik";
 import { EventFormValues } from "../_types/types.create.event";
 import { Plus, Tag, Trash2 } from "lucide-react";
 import FormField from "./form.fields";
+import { TICKET_TYPES } from "../_constants/constants.create.event";
+import { SelectItem } from "@/components/ui/select";
 
 const TicketTypesSection: React.FC<{
   formikProps: FormikProps<EventFormValues>;
@@ -26,6 +28,7 @@ const TicketTypesSection: React.FC<{
                   price: "",
                   quantity: "",
                   description: "",
+                  ticketType: "paid", // default
                 })
               }
               className="flex items-center space-x-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
@@ -64,13 +67,43 @@ const TicketTypesSection: React.FC<{
                     required
                   />
 
+                  {/* Ticket Type: Free / Paid */}
                   <FormField
-                    label="Price (IDR)"
-                    name={`ticketTypes.${index}.price`}
-                    type="number"
-                    placeholder="0"
-                    required
-                  />
+                    label="Ticket Type"
+                    as="shadcn-select"
+                    name={`ticketTypes.${index}.ticketType`}
+                    value={ticket.ticketType}
+                    onValueChange={(value) => {
+                      const fieldName = `ticketTypes.${index}.ticketType`;
+                      formikProps.setFieldValue(fieldName, value);
+
+                      // Kalau ganti ke free, clear price
+                      if (value === "free") {
+                        formikProps.setFieldValue(
+                          `ticketTypes.${index}.price`,
+                          "",
+                        );
+                      }
+                    }}
+                  >
+                    <option value="">Select a ticket type</option>
+                    {TICKET_TYPES.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </FormField>
+
+                  {/* Price (tampilkan hanya jika paid) */}
+                  {values.ticketTypes[index]?.ticketType === "paid" && (
+                    <FormField
+                      label="Price (IDR)"
+                      name={`ticketTypes.${index}.price`}
+                      type="number"
+                      placeholder="0"
+                      required
+                    />
+                  )}
 
                   <FormField
                     label="Quantity"

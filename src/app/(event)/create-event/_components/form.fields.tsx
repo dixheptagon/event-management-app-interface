@@ -17,7 +17,6 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
-import { id } from "date-fns/locale";
 
 const FormField: React.FC<FormFieldProps> = ({
   label,
@@ -29,6 +28,7 @@ const FormField: React.FC<FormFieldProps> = ({
   rows,
   children,
   className = "",
+  onValueChange,
 }) => (
   <Field name={name}>
     {({ field, meta, form }: any) => {
@@ -54,7 +54,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 >
                   <span>
                     {field.value
-                      ? format(new Date(field.value), "PPP")
+                      ? format(new Date(field.value), "PPP") // example: "Sep 1, 2025"
                       : "Pick a date"}
                   </span>
                 </Button>
@@ -67,17 +67,22 @@ const FormField: React.FC<FormFieldProps> = ({
                     // Simpan sebagai ISO string (default)
                     form.setFieldValue(name, date?.toISOString());
                   }}
-                  initialFocus
                 />
               </PopoverContent>
             </Popover>
           ) : as === "shadcn-select" ? (
-            /* ... Select dari sebelumnya ... */
+            // === shadcn Select ===
             <Select
               name={field.name}
               value={field.value}
               onValueChange={(value) => {
+                // Update the form field value
                 form.setFieldValue(field.name, value);
+
+                // forward to the parent component
+                if (onValueChange) {
+                  onValueChange(value);
+                }
               }}
             >
               <SelectTrigger

@@ -4,6 +4,7 @@ export interface IRegisterInput {
   password: string;
   role: string;
   referralCode?: string | null;
+  usedReferralCode?: string | null;
 }
 
 export interface IRegister extends IRegisterInput {

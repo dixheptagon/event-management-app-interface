@@ -13,11 +13,14 @@ const EVENT_CATEGORIES = [
   "Other",
 ] as const;
 
+const TICKET_TYPES = ["paid", "free"] as const;
+
 const INITIAL_VALUES: EventFormValues = {
   name: "",
   description: "",
   category: "",
-  date: "",
+  startDate: "",
+  endDate: "",
   startTime: "",
   endTime: "",
   location: "",
@@ -31,9 +34,11 @@ const INITIAL_VALUES: EventFormValues = {
       price: "",
       quantity: "",
       description: "",
+      ticketType: "paid",
     },
   ],
   tags: [],
+  promotions: [],
 };
 
-export { EVENT_CATEGORIES, INITIAL_VALUES };
+export { EVENT_CATEGORIES, INITIAL_VALUES, TICKET_TYPES };

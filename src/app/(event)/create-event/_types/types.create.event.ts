@@ -1,3 +1,5 @@
+import { PromotionFormValues } from "./types.promotion";
+
 // Types & Interfaces
 export interface TicketType {
   id: string;
@@ -5,13 +7,15 @@ export interface TicketType {
   price: number | "";
   quantity: number | "";
   description: string;
+  ticketType: "paid" | "free";
 }
 
 export interface EventFormValues {
   name: string;
   description: string;
   category: string;
-  date: string;
+  startDate: string;
+  endDate: string;
   startTime: string;
   endTime: string;
   location: string;
@@ -20,6 +24,7 @@ export interface EventFormValues {
   image: File | null;
   ticketTypes: TicketType[];
   tags: string[];
+  promotions: PromotionFormValues[];
 }
 
 // Form Components
@@ -33,4 +38,6 @@ export interface FormFieldProps {
   rows?: number;
   children?: React.ReactNode;
   className?: string;
+  value?: string;
+  onValueChange?: (value: string) => void;
 }

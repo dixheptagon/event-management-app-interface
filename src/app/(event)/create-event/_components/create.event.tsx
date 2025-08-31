@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import { Calendar, Save, Eye } from "lucide-react";
+import { Calendar, Save, Eye, Tag } from "lucide-react";
 import { EventFormValues } from "../_types/types.create.event";
 import {
   EVENT_CATEGORIES,
@@ -14,15 +14,8 @@ import TicketTypesSection from "./ticket.types.section";
 import ImageUploadField from "./image.upload.field";
 import TagsField from "./tags.field";
 import EventSummary from "./event.summary";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { SelectItem } from "@/components/ui/select";
+import PromotionsField from "./promotion.field";
 
 // Main Component
 const CreateEventPage: React.FC = () => {
@@ -50,10 +43,12 @@ const CreateEventPage: React.FC = () => {
       // Add complex fields as JSON
       formData.append("ticketTypes", JSON.stringify(values.ticketTypes));
       formData.append("tags", JSON.stringify(values.tags));
+      formData.append("promotions", JSON.stringify(values.promotions));
       formData.append("isDraft", String(isDraft));
 
       // Simulate API call
       console.log("Form submitted:", values);
+      console.log("Promotions:", values.promotions);
       console.log("Is draft:", isDraft);
 
       // Replace with actual API call
@@ -169,9 +164,16 @@ const CreateEventPage: React.FC = () => {
 
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       <FormField
-                        className="md:col-span-2"
-                        label="Date"
-                        name="date"
+                        label="Start Date"
+                        name="startDate"
+                        type="date"
+                        as="shadcn-datepicker"
+                        required
+                      />
+
+                      <FormField
+                        label="End Date"
+                        name="endDate"
                         type="date"
                         as="shadcn-datepicker"
                         required
@@ -218,6 +220,9 @@ const CreateEventPage: React.FC = () => {
 
                   {/* Ticket Types */}
                   <TicketTypesSection formikProps={formikProps} />
+
+                  {/*Promotions Section */}
+                  <PromotionsField formikProps={formikProps} />
                 </div>
 
                 {/* Sidebar */}
@@ -230,6 +235,57 @@ const CreateEventPage: React.FC = () => {
 
                   {/* Event Summary */}
                   <EventSummary ticketTypes={formikProps.values.ticketTypes} />
+
+                  {/*Promotions Quick Stats */}
+                  {formikProps.values.promotions?.length > 0 && (
+                    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+                      <h3 className="mb-4 flex items-center text-lg font-semibold text-gray-900">
+                        <Tag className="mr-2 h-5 w-5 text-purple-600" />
+                        Promotions Summary
+                      </h3>
+
+                      <div className="space-y-3">
+                        {formikProps.values.promotions.map((promo, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
+                          >
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">
+                                {promo.promoType || "New Promotion"}
+                              </div>
+                              {promo.code && (
+                                <div className="font-mono text-xs text-purple-600">
+                                  {promo.code}
+                                </div>
+                              )}
+                            </div>
+                            <div className="text-right">
+                              {promo.discountValue && (
+                                <div className="text-sm font-medium text-green-600">
+                                  {promo.discountType === "PERCENTAGE"
+                                    ? `${promo.discountValue}%`
+                                    : `Rp ${parseInt(promo.discountValue).toLocaleString("id-ID")}`}
+                                </div>
+                              )}
+                              <div className="text-xs text-gray-500">
+                                Quota: {promo.quota || 0}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="mt-4 border-t border-gray-200 pt-4">
+                        <div className="text-sm text-gray-600">
+                          Total Promotions:{" "}
+                          <span className="font-medium">
+                            {formikProps.values.promotions.length}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

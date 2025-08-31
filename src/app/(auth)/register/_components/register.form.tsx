@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { useReferralValidation } from "../_hooks/useReferralValidation";
 import ReferralInput from "./referral.input";
+import { ref } from "process";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -68,7 +69,7 @@ export default function RegisterForm() {
   }: IRegisterInput) => {
     setLoading(true);
     try {
-      const payload: any = {
+      const payload: IRegisterInput = {
         fullname,
         email,
         password,
@@ -82,19 +83,23 @@ export default function RegisterForm() {
 
       const response = await axiosInstance.post("api/auth/register", payload);
 
+      console.log(response);
+
       // Toast success message
       toast.success(response?.data?.message || "Register successful!", {
         onClose: () => router.push("/login"),
         autoClose: 3000,
       });
       // Toast succes get referral coupon
-      toast.success(
-        response?.data?.data?.welcomeBonus?.message + " ✨🎉" ||
-          "You received a welcome bonus! ✨🎉",
-        {
-          autoClose: 3000,
-        },
-      );
+      if (response?.data?.data?.welcomeBonus?.message) {
+        toast.success(
+          response?.data?.data?.welcomeBonus?.message + " ✨🎉" ||
+            "You received a welcome bonus! ✨🎉",
+          {
+            autoClose: 3000,
+          },
+        );
+      }
     } catch (error) {
       const err = error as AxiosError<{ error: string }>;
       toast.error(
