@@ -45,7 +45,7 @@ const CreateEventPage: React.FC = () => {
   }, [role]);
 
   const handleSubmit = async (values: EventFormValues, isDraft = false) => {
-    setIsLoading(false);
+    setIsLoading(true);
 
     try {
       // Transform data for API
@@ -73,14 +73,7 @@ const CreateEventPage: React.FC = () => {
         formData.append("eventImage", image);
       }
 
-      console.log("Complete event data:", completeEventData);
-
-      // Simulate API call
-      console.log("Form submitted:", values);
-      console.log("Promotions:", values.promotions);
-      console.log("Is draft:", isDraft);
-
-      // Replace with actual API call
+      // Make API call
       const response = await axiosInstance.post("api/create-event", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -96,16 +89,11 @@ const CreateEventPage: React.FC = () => {
             autoClose: 5000,
             onClose: () => {
               setIsLoading(false);
-              console.log("Event created successfully!");
-              // router.push("/");
+              router.push("/");
             },
           },
         );
       }
-
-      // alert(
-      //   isDraft ? "Event saved as draft!" : "Event published successfully!",
-      // );
     } catch (error) {
       console.error("Error submitting form:", error);
       // alert("Error submitting form. Please try again.");
