@@ -19,8 +19,8 @@ const EventSummary: React.FC<{
       : "Free";
 
   // Deteksi jenis event
-  const isAllFree = ticketTypes.every((t) => t.ticketType === "free");
-  const isAllPaid = ticketTypes.every((t) => t.ticketType === "paid");
+  const isAllFree = ticketTypes.every((t) => t.ticketType === "FREE");
+  const isAllPaid = ticketTypes.every((t) => t.ticketType === "PAID");
   const pricingType = isAllFree ? "Free" : isAllPaid ? "Paid" : "Mixed";
 
   return (

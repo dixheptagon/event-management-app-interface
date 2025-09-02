@@ -8,12 +8,11 @@ import { ShieldUser } from "lucide-react";
 
 export default function UserMenuDrawer() {
   const { role } = useAuthStore();
-  console.log(role);
 
   return (
     <div className="mt-6 flex flex-col gap-2 p-4">
       {/* Switch Role */}
-      {role === "customer" ? (
+      {role === "CUSTOMER" ? (
         <Link
           href="/" // Ganti dengan URL yang sesuai
           className="flex flex-col gap-3 rounded-md p-2 text-sm font-medium text-blue-600 hover:bg-gray-200 hover:text-blue-700"
@@ -40,7 +39,7 @@ export default function UserMenuDrawer() {
       <Separator className="my-2 text-gray-500" />
 
       {/* Menu Items */}
-      {role === "customer" ? (
+      {role === "CUSTOMER" ? (
         <Link
           href="/events"
           className="block rounded-md px-2 py-3 text-sm font-medium text-gray-700 hover:bg-gray-200"

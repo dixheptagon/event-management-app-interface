@@ -19,7 +19,7 @@ export default function UserMenuNavbar() {
         <Compass className="h-4 w-4" /> Explore Events
       </Link>
 
-      {role === "event_organizer" ? (
+      {role === "EVENT_ORGANIZER" ? (
         <Link
           href="/create-event"
           className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"

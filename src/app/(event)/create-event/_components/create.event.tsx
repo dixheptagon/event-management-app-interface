@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
-import { Calendar, Save, Eye, Tag } from "lucide-react";
+import { Calendar, Save, Eye, Tag, Loader } from "lucide-react";
 import { EventFormValues } from "../_types/types.create.event";
 import {
   EVENT_CATEGORIES,
@@ -16,35 +16,64 @@ import TagsField from "./tags.field";
 import EventSummary from "./event.summary";
 import { SelectItem } from "@/components/ui/select";
 import PromotionsField from "./promotion.field";
+import axiosInstance from "@/utils/axios.instance";
+import useAuthStore from "@/stores/auth.store";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 // Main Component
 const CreateEventPage: React.FC = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { role, token } = useAuthStore();
+
+  // Handle role that can access this page
+  useEffect(() => {
+    const allowedRoles = ["ADMIN", "EVENT_ORGANIZER"];
+
+    // Jika role pengguna tidak ada di dalam daftar yang diizinkan, redirect
+    if (!allowedRoles.includes(role) && role) {
+      toast.error(
+        "You are not authorized to access this page, redirecting...",
+        {
+          onClose: () => router.push("/"),
+          autoClose: 5000,
+        },
+      );
+    }
+  }, [role]);
 
   const handleSubmit = async (values: EventFormValues, isDraft = false) => {
-    setIsLoading(true);
+    setIsLoading(false);
 
     try {
       // Transform data for API
       const formData = new FormData();
 
-      // Add basic fields
-      Object.entries(values).forEach(([key, value]) => {
-        if (key !== "image" && key !== "ticketTypes" && key !== "tags") {
-          formData.append(key, String(value));
-        }
+      // Destructure dan exclude image
+      const { image, ticketTypes, tags, promotions, ...basicFields } = values;
+
+      // Satuin semua data
+      const completeEventData = {
+        ...basicFields,
+        ticketTypes: JSON.stringify(ticketTypes),
+        tags: JSON.stringify(tags),
+        promotions: JSON.stringify(promotions),
+        isDraft: String(isDraft),
+      };
+
+      // Append semua sekaligus
+      Object.entries(completeEventData).forEach(([key, value]) => {
+        formData.append(key, String(value));
       });
 
-      // Add image
-      if (values.image) {
-        formData.append("image", values.image);
+      // Handle image
+      if (image) {
+        formData.append("eventImage", image);
       }
 
-      // Add complex fields as JSON
-      formData.append("ticketTypes", JSON.stringify(values.ticketTypes));
-      formData.append("tags", JSON.stringify(values.tags));
-      formData.append("promotions", JSON.stringify(values.promotions));
-      formData.append("isDraft", String(isDraft));
+      console.log("Complete event data:", completeEventData);
 
       // Simulate API call
       console.log("Form submitted:", values);
@@ -52,16 +81,46 @@ const CreateEventPage: React.FC = () => {
       console.log("Is draft:", isDraft);
 
       // Replace with actual API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const response = await axiosInstance.post("api/create-event", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      alert(
-        isDraft ? "Event saved as draft!" : "Event published successfully!",
-      );
+      console.log("API response:", response);
+
+      if (response?.data?.message) {
+        toast.success(
+          response?.data?.message || "Event created successfully!",
+          {
+            autoClose: 5000,
+            onClose: () => {
+              setIsLoading(false);
+              console.log("Event created successfully!");
+              // router.push("/");
+            },
+          },
+        );
+      }
+
+      // alert(
+      //   isDraft ? "Event saved as draft!" : "Event published successfully!",
+      // );
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Error submitting form. Please try again.");
-    } finally {
-      setIsLoading(false);
+      // alert("Error submitting form. Please try again.");
+
+      const err = error as AxiosError<{ error: string; message: string }>;
+      toast.error(
+        err?.response?.data?.error ||
+          "Error submitting form. Please try again.",
+        {
+          autoClose: 5000,
+          onClose: () => {
+            setIsLoading(false);
+          },
+        },
+      );
     }
   };
 
@@ -94,17 +153,39 @@ const CreateEventPage: React.FC = () => {
                       disabled={isLoading}
                       className="flex items-center space-x-2 rounded-lg border border-gray-300 px-6 py-2 text-gray-700 transition-colors hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      <Save className="h-4 w-4" />
-                      <span>{isLoading ? "Saving..." : "Save Draft"}</span>
+                      {isLoading ? (
+                        <Loader className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <Save className="h-4 w-4" />
+                      )}
+                      <span>
+                        {isLoading ? (
+                          <div className="flex items-center space-x-2">
+                            <span>Saving...</span>
+                          </div>
+                        ) : (
+                          "Save Draft"
+                        )}
+                      </span>
                     </button>
                     <button
                       type="submit"
                       disabled={isLoading}
                       className="flex items-center space-x-2 rounded-lg bg-blue-600 px-6 py-2 text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      <Eye className="h-4 w-4" />
+                      {isLoading ? (
+                        <Loader className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
                       <span>
-                        {isLoading ? "Publishing..." : "Publish Event"}
+                        {isLoading ? (
+                          <div className="flex items-center space-x-2">
+                            <span>Publishing...</span>
+                          </div>
+                        ) : (
+                          "Publish Event"
+                        )}
                       </span>
                     </button>
                   </div>

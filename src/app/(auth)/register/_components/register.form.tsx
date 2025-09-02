@@ -83,8 +83,6 @@ export default function RegisterForm() {
 
       const response = await axiosInstance.post("api/auth/register", payload);
 
-      console.log(response);
-
       // Toast success message
       toast.success(response?.data?.message || "Register successful!", {
         onClose: () => router.push("/login"),
@@ -248,8 +246,8 @@ export default function RegisterForm() {
                   <SelectValue placeholder="Select role" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="customer">Customer</SelectItem>
-                  <SelectItem value="event_organizer">
+                  <SelectItem value="CUSTOMER">Customer</SelectItem>
+                  <SelectItem value="EVENT_ORGANIZER">
                     Event Organizer
                   </SelectItem>
                 </SelectContent>

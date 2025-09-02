@@ -28,7 +28,7 @@ const TicketTypesSection: React.FC<{
                   price: "",
                   quantity: "",
                   description: "",
-                  ticketType: "paid", // default
+                  ticketType: "PAID", // default
                 })
               }
               className="flex items-center space-x-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
@@ -78,7 +78,7 @@ const TicketTypesSection: React.FC<{
                       formikProps.setFieldValue(fieldName, value);
 
                       // Kalau ganti ke free, clear price
-                      if (value === "free") {
+                      if (value === "FREE") {
                         formikProps.setFieldValue(
                           `ticketTypes.${index}.price`,
                           "",
@@ -95,7 +95,7 @@ const TicketTypesSection: React.FC<{
                   </FormField>
 
                   {/* Price (tampilkan hanya jika paid) */}
-                  {values.ticketTypes[index]?.ticketType === "paid" && (
+                  {values.ticketTypes[index]?.ticketType === "PAID" && (
                     <FormField
                       label="Price (IDR)"
                       name={`ticketTypes.${index}.price`}

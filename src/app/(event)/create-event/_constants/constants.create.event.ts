@@ -1,3 +1,4 @@
+import { date } from "yup";
 import { EventFormValues } from "../_types/types.create.event";
 
 // Constants
@@ -13,14 +14,14 @@ const EVENT_CATEGORIES = [
   "Other",
 ] as const;
 
-const TICKET_TYPES = ["paid", "free"] as const;
+const TICKET_TYPES = ["PAID", "FREE"] as const;
 
 const INITIAL_VALUES: EventFormValues = {
   name: "",
   description: "",
   category: "",
-  startDate: "",
-  endDate: "",
+  startDate: new Date(),
+  endDate: new Date(),
   startTime: "",
   endTime: "",
   location: "",
@@ -34,7 +35,7 @@ const INITIAL_VALUES: EventFormValues = {
       price: "",
       quantity: "",
       description: "",
-      ticketType: "paid",
+      ticketType: "PAID",
     },
   ],
   tags: [],

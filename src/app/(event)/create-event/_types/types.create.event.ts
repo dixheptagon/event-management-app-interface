@@ -7,15 +7,15 @@ export interface TicketType {
   price: number | "";
   quantity: number | "";
   description: string;
-  ticketType: "paid" | "free";
+  ticketType: "PAID" | "FREE";
 }
 
 export interface EventFormValues {
   name: string;
   description: string;
   category: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   startTime: string;
   endTime: string;
   location: string;

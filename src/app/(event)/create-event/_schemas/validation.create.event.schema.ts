@@ -18,19 +18,17 @@ export const ValidationCreateEventSchema = Yup.object().shape({
     .required("Category is required")
     .oneOf(EVENT_CATEGORIES, "Please select a valid category"),
 
-  startDate: Yup.string().required("Start date is required"),
-  endDate: Yup.string()
+  startDate: Yup.date()
+    .required("Start date is required")
+    .min(
+      new Date(Date.now() + 24 * 60 * 60 * 1000),
+      "Start date must be in the future",
+    ),
+
+  endDate: Yup.date()
     .nullable()
     .required("End date is required")
-    .test(
-      "is-after-start",
-      "End date must be the same or after start date",
-      function (endDate) {
-        const { startDate } = this.parent;
-        if (!startDate || !endDate) return true; // biarkan required handle
-        return new Date(endDate) >= new Date(startDate);
-      },
-    ),
+    .min(Yup.ref("startDate"), "End date must be after start date"),
 
   startTime: Yup.string()
     .required("Start time is required")
@@ -72,11 +70,11 @@ export const ValidationCreateEventSchema = Yup.object().shape({
         ),
         ticketType: Yup.string()
           .required("Ticket type is required")
-          .oneOf(["paid", "free"], "Please select a valid ticket type"),
+          .oneOf(["PAID", "FREE"], "Please select a valid ticket type"),
 
         price: Yup.number()
           .when("ticketType", {
-            is: "paid",
+            is: "PAID",
             then: (schema) =>
               schema
                 .required("Price is required for paid tickets")
