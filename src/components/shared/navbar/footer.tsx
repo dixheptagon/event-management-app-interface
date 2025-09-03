@@ -55,7 +55,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/events"
+                  href="/explore-events"
                   className="text-sm text-gray-300 transition-colors hover:text-white"
                 >
                   Events

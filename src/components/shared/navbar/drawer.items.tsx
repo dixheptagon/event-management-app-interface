@@ -41,7 +41,7 @@ export default function UserMenuDrawer() {
       {/* Menu Items */}
       {role === "CUSTOMER" ? (
         <Link
-          href="/events"
+          href="/explore-events"
           className="block rounded-md px-2 py-3 text-sm font-medium text-gray-700 hover:bg-gray-200"
         >
           Explore Events

@@ -14,6 +14,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [search, setSearch] = useState("");
 
   return (
     <>
@@ -36,18 +37,31 @@ export default function Navbar() {
 
             {/* Desktop Search Bar (Only on md+) */}
             <div className="hidden max-w-xl flex-1 md:block">
-              <div className="flex">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (search.trim()) {
+                    window.location.href = `/explore-events?q=${encodeURIComponent(search)}`;
+                  }
+                }}
+                className="flex"
+              >
                 <Input
                   placeholder="Cari event seru di sini"
                   className="rounded-r-none border-none bg-[#15306d] px-4 placeholder:text-gray-400"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                   onFocus={() => setIsSearchFocused(true)}
                   onBlur={() => setIsSearchFocused(false)}
                 />
-                <Button className="rounded-l-none bg-blue-600 hover:bg-blue-700">
+                <Button
+                  type="submit"
+                  className="rounded-l-none bg-blue-600 hover:bg-blue-700"
+                >
                   <Search className="h-4 w-4" />
                   <span className="sr-only">Search</span>
                 </Button>
-              </div>
+              </form>
             </div>
 
             {/* Right Section: Desktop Menu */}
@@ -104,25 +118,37 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Dropdown */}
-          {isMenuOpen && (
-            <div className="space-y-4 pb-4 md:hidden">
-              <Link
-                href="/events"
-                className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <Compass className="h-4 w-4" /> Explore Events
-              </Link>
-              <Link
-                href="/tickets"
-                className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <Ticket className="h-4 w-4" /> My Ticket
-              </Link>
-              <div onClick={() => setIsMenuOpen(false)}></div>
-            </div>
-          )}
+          <div className="md:hidden">
+            {isMenuOpen && (
+              <div className="mt-2 mb-4">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (search.trim()) {
+                      window.location.href = `/explore-events?q=${encodeURIComponent(search)}`;
+                      setIsMenuOpen(false); // tutup menu setelah search
+                    }
+                  }}
+                  className="flex gap-2"
+                >
+                  <Input
+                    placeholder="Cari event..."
+                    className="flex-1 rounded-r-none border-none bg-[#15306d] px-4 placeholder:text-gray-400"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    onFocus={() => setIsSearchFocused(true)}
+                    onBlur={() => setIsSearchFocused(false)}
+                  />
+                  <Button
+                    type="submit"
+                    className="rounded-l-none bg-blue-600 hover:bg-blue-700"
+                  >
+                    <Search className="h-4 w-4" />
+                  </Button>
+                </form>
+              </div>
+            )}
+          </div>
         </div>
       </nav>
 

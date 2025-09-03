@@ -46,7 +46,7 @@ function formatPrice(
   ticketTypes: { price: number; ticketType: string }[],
 ): string {
   const freeTicket = ticketTypes.find((t) => t.ticketType === "FREE");
-  if (freeTicket) return "Gratis";
+  if (freeTicket) return "FREE";
 
   const paidTicket = ticketTypes.find((t) => t.ticketType === "PAID");
   if (paidTicket) {
@@ -57,7 +57,7 @@ function formatPrice(
     }).format(paidTicket.price);
   }
 
-  return "Gratis"; // fallback
+  return "FREE"; // fallback
 }
 
 export default function FeaturedEvents() {
@@ -118,7 +118,7 @@ export default function FeaturedEvents() {
           {[...Array(4)].map((_, index) => (
             <div
               key={index}
-              className="animate-pulse rounded-2xl bg-gray-200 shadow-lg"
+              className="my-5 animate-pulse rounded-2xl bg-gray-200 shadow-lg"
             >
               <div className="h-48 w-full rounded-t-2xl bg-gray-300"></div>
               <div className="p-4">
@@ -160,7 +160,7 @@ export default function FeaturedEvents() {
 
         {/* Explore Events Button */}
         <Link
-          href="/events"
+          href="/explore-events"
           className="group flex items-center gap-2 rounded-full bg-[#041846] px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-[#062555] hover:shadow-lg"
         >
           Explore Events
