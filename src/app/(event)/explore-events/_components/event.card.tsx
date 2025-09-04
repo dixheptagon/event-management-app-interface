@@ -1,10 +1,7 @@
 import axiosInstance from "@/utils/axios.instance";
 import formatDateRange from "@/utils/format.date.range";
 import formatPrice from "@/utils/format.price.idr";
-import { Calendar, DollarSign } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 
 // Event Card Component
 export const EventCard = ({ event, index }: any) => {

@@ -3,7 +3,6 @@
 
 import Link from "next/link";
 import useAuthStore from "@/stores/auth.store";
-import { Separator } from "@/components/ui/separator";
 import { CalendarPlus, Compass, ShieldUser, Ticket } from "lucide-react";
 import LoginSignUpDrawer from "./login.signup.drawer";
 

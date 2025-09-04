@@ -6,15 +6,28 @@ import { Input } from "@/components/ui/input";
 import { Compass, Ticket, User, Search, Menu, X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import LoginSignUpDrawer from "./login.signup.drawer";
-import { usePathname } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import UserMenuNavbar from "./navbar.items";
+import useEventsStore from "@/stores/explore.events.store";
 
 export default function Navbar() {
-  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const keyword = useEventsStore((state) => state.keyword);
+  const setKeyword = useEventsStore((state) => state.setKeyword);
+
+  // State for styling
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [search, setSearch] = useState("");
+
+  const handleSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (keyword.trim()) {
+      router.push(`/explore-events?keyword=${encodeURIComponent(keyword)}`);
+      setIsMenuOpen(false); // close menu kalau dari mobile
+    }
+  };
 
   return (
     <>
@@ -37,22 +50,21 @@ export default function Navbar() {
 
             {/* Desktop Search Bar (Only on md+) */}
             <div className="hidden max-w-xl flex-1 md:block">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (search.trim()) {
-                    window.location.href = `/explore-events?q=${encodeURIComponent(search)}`;
-                  }
-                }}
-                className="flex"
-              >
+              <form onSubmit={handleSubmit} className="flex">
                 <Input
-                  placeholder="Cari event seru di sini"
+                  placeholder="Search fun events here..."
                   className="rounded-r-none border-none bg-[#15306d] px-4 placeholder:text-gray-400"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
                   onFocus={() => setIsSearchFocused(true)}
                   onBlur={() => setIsSearchFocused(false)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleSubmit(e);
+                      setIsSearchFocused(false);
+                    }
+                  }}
                 />
                 <Button
                   type="submit"
@@ -87,17 +99,22 @@ export default function Navbar() {
           {/* Mobile Search Bar (Visible when menu is open or always on focus) */}
           <div className="md:hidden">
             {isMenuOpen && (
-              <div className="mt-2 mb-4 flex gap-2">
+              <form onSubmit={handleSubmit} className="mt-2 mb-4 flex gap-2">
                 <Input
                   placeholder="Cari event..."
                   className="flex-1 rounded-r-none border-none bg-[#15306d] px-4 placeholder:text-gray-400"
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
                   onFocus={() => setIsSearchFocused(true)}
                   onBlur={() => setIsSearchFocused(false)}
                 />
-                <Button className="rounded-l-none bg-blue-600 hover:bg-blue-700">
+                <Button
+                  type="submit"
+                  className="rounded-l-none bg-blue-600 hover:bg-blue-700"
+                >
                   <Search className="h-4 w-4" />
                 </Button>
-              </div>
+              </form>
             )}
           </div>
 
@@ -118,37 +135,25 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Dropdown */}
-          <div className="md:hidden">
-            {isMenuOpen && (
-              <div className="mt-2 mb-4">
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (search.trim()) {
-                      window.location.href = `/explore-events?q=${encodeURIComponent(search)}`;
-                      setIsMenuOpen(false); // tutup menu setelah search
-                    }
-                  }}
-                  className="flex gap-2"
-                >
-                  <Input
-                    placeholder="Cari event..."
-                    className="flex-1 rounded-r-none border-none bg-[#15306d] px-4 placeholder:text-gray-400"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    onFocus={() => setIsSearchFocused(true)}
-                    onBlur={() => setIsSearchFocused(false)}
-                  />
-                  <Button
-                    type="submit"
-                    className="rounded-l-none bg-blue-600 hover:bg-blue-700"
-                  >
-                    <Search className="h-4 w-4" />
-                  </Button>
-                </form>
-              </div>
-            )}
-          </div>
+          {isMenuOpen && (
+            <div className="space-y-4 pb-4 md:hidden">
+              <Link
+                href="/explore-events"
+                className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Compass className="h-4 w-4" /> Explore Events
+              </Link>
+              <Link
+                href="/tickets"
+                className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Ticket className="h-4 w-4" /> My Ticket
+              </Link>
+              <div onClick={() => setIsMenuOpen(false)}></div>
+            </div>
+          )}
         </div>
       </nav>
 

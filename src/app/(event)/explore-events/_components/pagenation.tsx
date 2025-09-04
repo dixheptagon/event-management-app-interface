@@ -1,3 +1,12 @@
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import useEventsStore from "@/stores/explore.events.store";
+
 // Pagination Component
 export const Pagination = ({
   currentPage,
@@ -6,11 +15,32 @@ export const Pagination = ({
   totalItems,
   onPageChange,
 }: any) => {
+  const { setItemsPerPage } = useEventsStore();
+
   return (
     <div className="flex items-center justify-between rounded-lg bg-white p-4 shadow-sm">
-      <div className="text-sm text-gray-600">
-        Tampil: <span className="font-medium">{itemsPerPage}</span> dari{" "}
-        <span className="font-medium">{totalItems}</span>
+      <div className="flex items-center gap-3 text-sm text-gray-600">
+        Shows:{" "}
+        <span className="font-medium">
+          <Select
+            value={String(itemsPerPage)}
+            onValueChange={(value) => setItemsPerPage(Number(value))}
+          >
+            <SelectTrigger
+              id="items-per-page"
+              className="h-8 w-18 text-sm focus:ring-1 focus:ring-orange-500"
+            >
+              <SelectValue placeholder="8" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="8">8</SelectItem>
+              <SelectItem value="12">12</SelectItem>
+              <SelectItem value="16">16</SelectItem>
+              <SelectItem value="24">24</SelectItem>
+            </SelectContent>
+          </Select>
+        </span>{" "}
+        from <span className="font-medium">{totalItems}</span>
       </div>
 
       <div className="flex items-center space-x-2">
