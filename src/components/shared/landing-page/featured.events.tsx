@@ -194,7 +194,7 @@ export default function FeaturedEvents() {
                   )
                   .map((event, eventIndex) => (
                     <Link
-                      href={`/events/${event.id || "not-found"}`}
+                      href={`/event-details/${event.title || "not-found"}`}
                       key={`${slideIndex}-${eventIndex}`}
                       className="group relative rounded-2xl bg-white shadow-lg transition-all duration-300 ease-in-out hover:z-10 hover:scale-105 hover:shadow-xl"
                     >

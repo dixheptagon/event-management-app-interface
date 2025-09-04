@@ -106,7 +106,7 @@ export const FilterSidebar = ({
         {/* Apply button */}
         <Button
           type="submit"
-          className="w-full bg-orange-500 text-white hover:bg-orange-600"
+          className="w-full bg-[#15306d] text-white hover:bg-[#15306d]/90"
         >
           <FunnelPlus size={16} className="mr-2" />
           Apply

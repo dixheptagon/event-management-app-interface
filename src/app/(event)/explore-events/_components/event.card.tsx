@@ -7,7 +7,7 @@ import Link from "next/link";
 export const EventCard = ({ event, index }: any) => {
   return (
     <Link
-      href={`/events/${event.id}`}
+      href={`/event-details/${event.title}` || `/events/${undefined}`}
       key={index}
       className="group rounded-2xl bg-white shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl"
     >
