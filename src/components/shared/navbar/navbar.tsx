@@ -31,7 +31,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="relative z-20 w-full bg-[#041846] text-white">
+      <nav className="relative z-30 w-full bg-[#041846] text-white">
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Section */}
           <div className="flex h-16 items-center justify-between gap-4">
@@ -160,7 +160,7 @@ export default function Navbar() {
       {/* Backdrop for Search Focus */}
       {isSearchFocused && (
         <div
-          className="fixed inset-0 z-10 bg-black/60"
+          className="fixed inset-0 z-20 bg-black/60"
           onClick={() => setIsSearchFocused(false)}
         />
       )}
@@ -168,7 +168,7 @@ export default function Navbar() {
       {/* Backdrop for Mobile Menu */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 z-10 bg-black/60 md:hidden"
+          className="fixed inset-0 z-20 bg-black/60 md:hidden"
           onClick={() => setIsMenuOpen(false)}
         />
       )}

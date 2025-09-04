@@ -44,6 +44,16 @@ const CreateEventPage: React.FC = () => {
     }
   }, [role]);
 
+  // Handle if do not have token need to login first
+  useEffect(() => {
+    if (!token) {
+      toast.error("You are not logged in,Please login first!", {
+        onClose: () => router.push("/login"),
+        autoClose: 5000,
+      });
+    }
+  }, [token]);
+
   const handleSubmit = async (values: EventFormValues, isDraft = false) => {
     setIsLoading(true);
 

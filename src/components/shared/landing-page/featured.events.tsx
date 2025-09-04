@@ -71,7 +71,7 @@ export default function FeaturedEvents() {
       setLoading(true);
       const response = await axiosInstance.get("api/list-events");
       console.log(response);
-      setEventsData(response?.data?.data || []);
+      setEventsData(response?.data?.data?.json || []);
     } catch (error) {
       toast.error("Internal Server Error : Failed to get events!");
     } finally {
@@ -194,7 +194,7 @@ export default function FeaturedEvents() {
                   )
                   .map((event, eventIndex) => (
                     <Link
-                      href={`/event-details/${event.title || "not-found"}`}
+                      href={`/event-details/${event.title || "undefined"} ${event.id}`}
                       key={`${slideIndex}-${eventIndex}`}
                       className="group relative rounded-2xl bg-white shadow-lg transition-all duration-300 ease-in-out hover:z-10 hover:scale-105 hover:shadow-xl"
                     >

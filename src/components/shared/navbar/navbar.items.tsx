@@ -12,7 +12,7 @@ export default function UserMenuNavbar() {
   return (
     <div className="hidden items-center gap-6 md:flex">
       <Link
-        href="explore-events"
+        href="/explore-events"
         className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
       >
         <Compass className="h-4 w-4" /> Explore Events

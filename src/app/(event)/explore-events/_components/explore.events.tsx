@@ -34,7 +34,7 @@ export default function ExploreEventsPage() {
           category: category || undefined,
         },
       });
-      setEventsData(response?.data?.data || []);
+      setEventsData(response?.data?.data?.json || []);
     } catch (error) {
       toast.error("Internal Server Error : Failed to get events!");
     } finally {
