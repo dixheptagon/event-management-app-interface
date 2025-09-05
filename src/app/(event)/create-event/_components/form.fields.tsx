@@ -29,10 +29,28 @@ const FormField: React.FC<FormFieldProps> = ({
   children,
   className = "",
   onValueChange,
+  formatter, // <--- tambahan
+  parser, // <--- tambahan
 }) => (
   <Field name={name}>
     {({ field, meta, form }: any) => {
       const error = meta.touched && meta.error;
+
+      const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      ) => {
+        let rawValue = e.target.value;
+
+        if (parser) {
+          rawValue = parser(rawValue); // parsing ke angka mentah
+        }
+
+        form.setFieldValue(name, rawValue);
+
+        if (onValueChange) {
+          onValueChange(rawValue);
+        }
+      };
 
       return (
         <div className={className}>
@@ -119,6 +137,8 @@ const FormField: React.FC<FormFieldProps> = ({
               {...field}
               type={type}
               placeholder={placeholder}
+              value={formatter ? formatter(field.value) : field.value || ""}
+              onChange={handleChange}
               className={`w-full rounded-lg border px-4 py-3 transition-colors focus:border-transparent focus:ring-2 focus:ring-blue-500 ${
                 error ? "border-red-500" : "border-gray-300"
               }`}

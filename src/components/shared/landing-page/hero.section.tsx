@@ -10,26 +10,17 @@ const slides = [
   {
     id: 1,
     src: "/page/HeroSection/1.png",
-    alt: "Mahafest 2025",
-    cta: "Beli Tiketnya di KiosTix",
+    alt: "Welcome to Ticketin",
   },
   {
     id: 2,
     src: "/page/HeroSection/2.png",
-    alt: "Festival Musik",
-    cta: "Pesan Sekarang",
+    alt: "Invite Friends, and get more points",
   },
   {
     id: 3,
-    src: "/page/HeroSection/3.jpeg",
-    alt: "Pameran Seni",
-    cta: "Dapatkan Tiket",
-  },
-  {
-    id: 4,
-    src: "/page/HeroSection/4.jpg",
-    alt: "Festival Musik",
-    cta: "Pesan Sekarang",
+    src: "/page/HeroSection/3.png",
+    alt: "Create, sell & buy tickets only on Ticketin",
   },
 ];
 
@@ -62,13 +53,6 @@ export default function HeroSection() {
                 priority
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
               />
-
-              {/* CTA Button */}
-              <div className="absolute right-3 bottom-3 sm:right-4 sm:bottom-4">
-                <button className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow transition hover:bg-amber-700 sm:text-base">
-                  {slides[current].cta}
-                </button>
-              </div>
             </motion.div>
           </AnimatePresence>
 

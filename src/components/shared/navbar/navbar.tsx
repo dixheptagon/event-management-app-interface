@@ -121,16 +121,16 @@ export default function Navbar() {
           {/* Hashtags - Responsive Wrap */}
           <div className="flex flex-wrap gap-3 pb-4 text-sm text-blue-200 md:pb-2">
             <Link href="#" className="hover:text-white">
-              #Promo_Indodana
+              #Promo_Ticketin
             </Link>
             <Link href="#" className="hover:text-white">
-              #LOKETScreen
+              #MadeWithTicketin
             </Link>
             <Link href="#" className="hover:text-white">
-              #LOKET_Promo
+              #Ticketin_Promo
             </Link>
             <Link href="#" className="hover:text-white">
-              #LoketAttraction
+              #TicketinLive
             </Link>
           </div>
 

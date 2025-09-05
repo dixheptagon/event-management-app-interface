@@ -77,6 +77,10 @@ const PromotionsField = ({ formikProps }: PromotionsFieldProps) => {
     }).format(value || 0);
   };
 
+  const parseCurrency = (value: string) => {
+    return value.replace(/\D/g, ""); // ambil angka doang
+  };
+
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
       <div className="mb-6 flex items-center justify-between">
@@ -209,17 +213,42 @@ const PromotionsField = ({ formikProps }: PromotionsFieldProps) => {
                               <span>Discount Value *</span>
                             </div>
                           </label>
-                          <Field
-                            type="number"
-                            name={`promotions.${index}.discountValue`}
-                            placeholder={
-                              formikProps.values.promotions[index]
-                                ?.discountType === "PERCENTAGE"
-                                ? "e.g., 10 (for 10%)"
-                                : "e.g., 50000 (for Rp 50,000)"
-                            }
-                            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-purple-500"
-                          />
+                          <Field name={`promotions.${index}.discountValue`}>
+                            {({ field, form }: any) => {
+                              const rawValue = field.value || "";
+                              const isPercentage =
+                                formikProps.values.promotions[index]
+                                  ?.discountType === "PERCENTAGE";
+
+                              return (
+                                <input
+                                  {...field}
+                                  type="text"
+                                  inputMode="numeric"
+                                  placeholder={
+                                    isPercentage
+                                      ? "e.g., 10 (for 10%)"
+                                      : "e.g., 50000 (for Rp 50,000)"
+                                  }
+                                  value={
+                                    isPercentage
+                                      ? rawValue
+                                      : formatCurrency(rawValue)
+                                  }
+                                  onChange={(e) => {
+                                    const val = e.target.value;
+                                    form.setFieldValue(
+                                      field.name,
+                                      isPercentage
+                                        ? val.replace(/\D/g, "")
+                                        : parseCurrency(val),
+                                    );
+                                  }}
+                                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-purple-500"
+                                />
+                              );
+                            }}
+                          </Field>
                           {/* ⚠️ Error display untuk discountValue */}
                           <FieldError
                             name={`promotions.${index}.discountValue`}
@@ -276,12 +305,27 @@ const PromotionsField = ({ formikProps }: PromotionsFieldProps) => {
                           <label className="mb-2 block text-sm font-medium text-gray-700">
                             Minimum Purchase (Optional)
                           </label>
-                          <Field
-                            type="number"
-                            name={`promotions.${index}.minPurchaseAmount`}
-                            placeholder="e.g., 100000 (Rp 100,000)"
-                            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-purple-500"
-                          />
+                          <Field name={`promotions.${index}.minPurchaseAmount`}>
+                            {({ field, form }: any) => {
+                              const rawValue = field.value || "";
+                              return (
+                                <input
+                                  {...field}
+                                  type="text"
+                                  inputMode="numeric"
+                                  placeholder="e.g., 100000 (Rp 100,000)"
+                                  value={formatCurrency(rawValue)}
+                                  onChange={(e) => {
+                                    form.setFieldValue(
+                                      field.name,
+                                      parseCurrency(e.target.value),
+                                    );
+                                  }}
+                                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-purple-500"
+                                />
+                              );
+                            }}
+                          </Field>
                           <FieldError
                             name={`promotions.${index}.minPurchaseAmount`}
                             formikProps={formikProps}
@@ -293,12 +337,27 @@ const PromotionsField = ({ formikProps }: PromotionsFieldProps) => {
                           <label className="mb-2 block text-sm font-medium text-gray-700">
                             Maximum Discount (Optional)
                           </label>
-                          <Field
-                            type="number"
-                            name={`promotions.${index}.maxDiscountAmount`}
-                            placeholder="e.g., 200000 (Rp 200,000)"
-                            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-purple-500"
-                          />
+                          <Field name={`promotions.${index}.maxDiscountAmount`}>
+                            {({ field, form }: any) => {
+                              const rawValue = field.value || "";
+                              return (
+                                <input
+                                  {...field}
+                                  type="text"
+                                  inputMode="numeric"
+                                  placeholder="e.g., 100000 (Rp 100,000)"
+                                  value={formatCurrency(rawValue)}
+                                  onChange={(e) => {
+                                    form.setFieldValue(
+                                      field.name,
+                                      parseCurrency(e.target.value),
+                                    );
+                                  }}
+                                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-purple-500"
+                                />
+                              );
+                            }}
+                          </Field>
                           <FieldError
                             name={`promotions.${index}.maxDiscountAmount`}
                             formikProps={formikProps}

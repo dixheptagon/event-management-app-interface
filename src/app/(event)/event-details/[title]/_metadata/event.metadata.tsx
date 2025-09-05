@@ -12,7 +12,7 @@ interface EventMetadataProps {
 const EventMetadata: React.FC<EventMetadataProps> = ({
   event,
   currentUrl = "",
-  siteName = "EventBrite",
+  siteName = "Ticketin",
 }) => {
   const { metadata, structuredData, shareData } = useEventMetadata({
     event,
@@ -41,7 +41,7 @@ const EventMetadata: React.FC<EventMetadataProps> = ({
       <meta property="og:image" content={metadata.image} />
       <meta property="og:image:alt" content={`${event.title} event image`} />
       <meta property="og:url" content={metadata.url} />
-      <meta property="og:type" content="event" />
+      <meta property="og:type" content="website" />
       <meta property="og:site_name" content={siteName} />
       <meta property="og:locale" content="id_ID" />
 

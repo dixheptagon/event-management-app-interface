@@ -33,7 +33,6 @@ export default function ResendVerificationForm() {
           email,
         },
       );
-      console.log(response);
       toast.success(response?.data?.message || "Verification email sent!");
       setSuccess(true);
     } catch (error) {

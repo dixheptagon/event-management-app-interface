@@ -35,11 +35,13 @@ const ImageUploadField: React.FC<{
       <div className="space-y-4">
         {previewUrl ? (
           <div className="relative">
-            <img
-              src={previewUrl}
-              alt="Event preview"
-              className="h-48 w-full rounded-lg object-cover"
-            />
+            <div className="aspect-[21/10] w-full">
+              <img
+                src={previewUrl}
+                alt="Event preview"
+                className="h-full w-full rounded-lg object-cover object-center"
+              />
+            </div>
             <button
               type="button"
               onClick={removeImage}
@@ -49,16 +51,21 @@ const ImageUploadField: React.FC<{
             </button>
           </div>
         ) : (
-          <label className="flex h-48 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition-colors hover:bg-gray-100">
+          <label className="flex h-42 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition-colors hover:bg-gray-100">
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <Upload className="mb-4 h-8 w-8 text-gray-500" />
               <p className="mb-2 text-sm text-gray-500">
                 <span className="font-semibold">Click to upload</span> or drag
                 and drop
               </p>
+
               <p className="text-xs text-gray-500">
                 PNG, JPG or GIF (MAX. 5MB)
               </p>
+
+              <span className="pt-2 text-xs text-gray-500">
+                Ratio 16:9 is recommended
+              </span>
             </div>
             <input
               type="file"

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import getLowestPriceLabel from "@/utils/getLowestPrice";
 
 // Fungsi: Format tanggal dari ISO ke DD Mon - DD Mon YYYY
 function formatDateRange(startDateStr: string, endDateStr: string): string {
@@ -70,7 +71,7 @@ export default function FeaturedEvents() {
     try {
       setLoading(true);
       const response = await axiosInstance.get("api/list-events");
-      console.log(response);
+
       setEventsData(response?.data?.data?.json || []);
     } catch (error) {
       toast.error("Internal Server Error : Failed to get events!");
@@ -100,13 +101,6 @@ export default function FeaturedEvents() {
   const goToSlide = (slideIndex: number) => {
     setCurrentSlide(slideIndex);
   };
-
-  // Dapatkan events untuk slide saat ini
-  // const getCurrentSlideEvents = () => {
-  //   const startIndex = currentSlide * eventsPerSlide;
-  //   const endIndex = startIndex + eventsPerSlide;
-  //   return featuredEvents.slice(startIndex, endIndex);
-  // };
 
   if (loading) {
     return (
@@ -199,13 +193,15 @@ export default function FeaturedEvents() {
                       className="group relative rounded-2xl bg-white shadow-lg transition-all duration-300 ease-in-out hover:z-10 hover:scale-105 hover:shadow-xl"
                     >
                       {/* Gambar */}
-                      <img
-                        src={
-                          event.eventMedia[0]?.url || "/placeholder-event.jpg"
-                        }
-                        alt={event.title}
-                        className="h-48 w-full rounded-t-2xl object-cover object-center"
-                      />
+                      <div className="aspect-[17/9] w-full">
+                        <img
+                          src={
+                            event.eventMedia[0]?.url || "/placeholder-event.jpg"
+                          }
+                          alt={event.title}
+                          className="h-full w-full rounded-t-2xl object-cover object-center"
+                        />
+                      </div>
 
                       {/* Konten */}
                       <div className="p-4">
@@ -216,7 +212,7 @@ export default function FeaturedEvents() {
                           {formatDateRange(event.startDate, event.endDate)}
                         </p>
                         <p className="mt-1 text-lg font-semibold text-gray-800">
-                          {formatPrice(event.ticketTypes)}
+                          {getLowestPriceLabel(event?.ticketTypes ?? [])}
                         </p>
                         <hr className="my-2 border-gray-200" />
                         <p className="text-sm text-gray-600">

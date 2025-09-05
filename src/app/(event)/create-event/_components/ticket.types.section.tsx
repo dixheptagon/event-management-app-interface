@@ -99,9 +99,19 @@ const TicketTypesSection: React.FC<{
                     <FormField
                       label="Price (IDR)"
                       name={`ticketTypes.${index}.price`}
-                      type="number"
+                      type="text"
                       placeholder="0"
                       required
+                      formatter={(val) =>
+                        val
+                          ? new Intl.NumberFormat("id-ID", {
+                              style: "currency",
+                              currency: "IDR",
+                              minimumFractionDigits: 0,
+                            }).format(Number(val))
+                          : ""
+                      }
+                      parser={(val) => val.replace(/\D/g, "")}
                     />
                   )}
 

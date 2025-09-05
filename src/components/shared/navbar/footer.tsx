@@ -18,8 +18,8 @@ export default function Footer() {
               <Image src="/logo.png" alt="Logo" width={120} height={120} />
             </Link>
             <p className="mt-4 text-sm text-gray-300">
-              Explore nearby events, buy tickets instantly, and enjoy a hands-on
-              experience without the hassle.
+              Simplify your event management with Ticketin. Create events, sell
+              tickets, and track attendees all in one platform.
             </p>
             <div className="mt-6 flex space-x-4">
               <Link
@@ -61,20 +61,13 @@ export default function Footer() {
                   Events
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/categories"
-                  className="text-sm text-gray-300 transition-colors hover:text-white"
-                >
-                  Categories
-                </Link>
-              </li>
+
               <li>
                 <Link
                   href="/about"
                   className="text-sm text-gray-300 transition-colors hover:text-white"
                 >
-                  About Us
+                  Dashboard
                 </Link>
               </li>
               <li>
@@ -82,7 +75,7 @@ export default function Footer() {
                   href="/contact"
                   className="text-sm text-gray-300 transition-colors hover:text-white"
                 >
-                  Contact
+                  My Ticket
                 </Link>
               </li>
             </ul>
@@ -91,7 +84,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/faq"
+                  href="/help"
                   className="text-sm text-gray-300 transition-colors hover:text-white"
                 >
                   FAQ
@@ -99,7 +92,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/support"
+                  href="/help"
                   className="text-sm text-gray-300 transition-colors hover:text-white"
                 >
                   Support
@@ -107,7 +100,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/terms"
+                  href="/help"
                   className="text-sm text-gray-300 transition-colors hover:text-white"
                 >
                   Terms of Service
@@ -115,7 +108,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/privacy"
+                  href="/help"
                   className="text-sm text-gray-300 transition-colors hover:text-white"
                 >
                   Privacy Policy

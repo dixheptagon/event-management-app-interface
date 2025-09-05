@@ -40,4 +40,7 @@ export interface FormFieldProps {
   className?: string;
   value?: string;
   onValueChange?: (value: string) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  formatter?: (value: string) => string;
+  parser?: (value: string) => string;
 }

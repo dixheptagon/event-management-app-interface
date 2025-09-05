@@ -67,7 +67,7 @@ const EventDetailsPage = () => {
     try {
       setIsLoading(true);
       const response = await axiosInstance.get(`api/event-details/${eventId}`);
-      console.log(response);
+
       setEventDetails(response?.data?.data?.json);
     } catch (error) {
       toast.error("Internal Server Error : Failed to get event details!");
@@ -115,8 +115,8 @@ const EventDetailsPage = () => {
             <div className="absolute inset-0 bg-black/40" />
 
             {/* Event Logo/Image - positioned on the right */}
-            <div className="absolute top-65 px-7 md:top-20 md:right-6">
-              <div className="flex h-32 w-64 items-center justify-center rounded-lg">
+            <div className="absolute bottom-2 px-7 md:top-20 md:right-2">
+              <div className="md flex h-48 w-72 items-center justify-center rounded-lg md:h-64 md:w-128">
                 <img
                   src={eventDetails?.eventMedia[0]?.url}
                   alt={eventDetails?.title}

@@ -90,8 +90,6 @@ const CreateEventPage: React.FC = () => {
         },
       });
 
-      console.log("API response:", response);
-
       if (response?.data?.message) {
         toast.success(
           response?.data?.message || "Event created successfully!",
@@ -105,9 +103,6 @@ const CreateEventPage: React.FC = () => {
         );
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
-      // alert("Error submitting form. Please try again.");
-
       const err = error as AxiosError<{ error: string; message: string }>;
       toast.error(
         err?.response?.data?.error ||

@@ -25,7 +25,6 @@ export default function VerifyEmailPage() {
   useEffect(() => {
     if (token) {
       verifyEmail(token);
-      console.log(token);
     } else {
       setError("Invalid verification link");
       setLoading(false);
@@ -34,11 +33,10 @@ export default function VerifyEmailPage() {
 
   const verifyEmail = async (verificationToken: string) => {
     try {
-      console.log(">>>");
       const response = await axiosInstance.get(
         `api/auth/verify-email?token=${verificationToken}`,
       );
-      console.log(response);
+
       setSuccess(true);
       toast.success(response?.data?.message || "Verification successful!", {
         onClose: () => router.push("/login"),
