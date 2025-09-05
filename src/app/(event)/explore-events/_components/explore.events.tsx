@@ -7,21 +7,45 @@ import axiosInstance from "@/utils/axios.instance";
 import { toast } from "react-toastify";
 import { useSearchParams, useRouter } from "next/navigation";
 import useEventsStore from "@/stores/explore.events.store";
+import { set } from "date-fns";
+import { Loader } from "lucide-react";
 
 // Main Component
 export default function ExploreEventsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { setLocalFilters, setKeyword } = useEventsStore();
+  const {
+    setLocalFilters,
+    setKeyword,
+    setCurrentPage,
+    setItemsPerPage,
+    currentPage,
+    itemsPerPage,
+  } = useEventsStore();
 
   // ambil semua query params dari URL
   const keyword = searchParams.get("keyword") || "";
   const location = searchParams.get("location") || "";
   const category = searchParams.get("category") || "";
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const limitFromUrl = parseInt(searchParams.get("limit") || "8", 10);
 
-  const [currentPage, setCurrentPage] = useState(1);
   const [eventsData, setEventsData] = useState<Event[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+
+  // ✅ Sinkronkan limit dari URL ke store saat pertama kali
+  useEffect(() => {
+    if (limitFromUrl !== itemsPerPage) {
+      setItemsPerPage(limitFromUrl);
+    }
+  }, [limitFromUrl, itemsPerPage, setItemsPerPage]);
+
+  // Sync currentPage dari URL ke store
+  useEffect(() => {
+    setCurrentPage(page);
+  }, [page, setCurrentPage]);
 
   // Fetch Events
   const onGetEvents = async () => {
@@ -32,9 +56,15 @@ export default function ExploreEventsPage() {
           keyword: keyword || undefined,
           location: location || undefined,
           category: category || undefined,
+          limit: itemsPerPage,
+          skip: (currentPage - 1) * itemsPerPage,
         },
       });
-      setEventsData(response?.data?.data?.json || []);
+      const { events, totalItems, totalPages } = response.data.data;
+
+      setEventsData(events || []);
+      setTotalPages(totalPages || 1);
+      setTotalItems(totalItems || 0);
     } catch (error) {
       toast.error("Internal Server Error : Failed to get events!");
     } finally {
@@ -42,49 +72,57 @@ export default function ExploreEventsPage() {
     }
   };
 
-  // fetch setiap kali query params berubah
+  // Refetch saat filter atau halaman/limit berubah
   useEffect(() => {
     onGetEvents();
-  }, [keyword, location, category]);
+  }, [keyword, location, category, currentPage, itemsPerPage]);
 
-  const { itemsPerPage } = useEventsStore();
-  const totalPages = Math.ceil(eventsData.length / itemsPerPage);
-
-  // Get current page events
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentEvents = eventsData.slice(startIndex, startIndex + itemsPerPage);
-
+  // Ubah halaman
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+
+    const params = new URLSearchParams(searchParams.toString());
+    if (page === 1) params.delete("page");
+    else params.set("page", page.toString());
+
+    router.push(`/explore-events?${params.toString()}`);
   };
 
-  // update filters → ubah URL query params
-  const handleFiltersChange = (newFilters: any) => {
+  // Ubah jumlah item per halaman
+  const handleItemsPerPageChange = (newLimit: number) => {
+    setItemsPerPage(newLimit);
+    setCurrentPage(1); // reset ke halaman 1
+
     const params = new URLSearchParams(searchParams.toString());
+    if (newLimit === 8) params.delete("limit");
+    else params.set("limit", newLimit.toString());
+
+    params.set("page", "1"); // pastikan page 1
+    router.push(`/explore-events?${params.toString()}`);
+  };
+
+  // Update filters → ubah URL query params
+  const handleFiltersChange = (newFilters: any) => {
+    const params = new URLSearchParams();
 
     if (newFilters.location) params.set("location", newFilters.location);
-    else params.delete("location");
-
     if (newFilters.category) params.set("category", newFilters.category);
-    else params.delete("category");
-
-    // keyword tetep dipertahankan
     if (keyword) params.set("keyword", keyword);
+
+    // Reset page ke 1 saat filter berubah
+    params.set("page", "1");
 
     router.push(`/explore-events?${params.toString()}`);
     setCurrentPage(1);
   };
 
   const resetFilters = () => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    params.delete("location");
-    params.delete("category");
-    params.delete("keyword");
-    setLocalFilters({});
-    setKeyword("");
+    const params = new URLSearchParams();
+    params.set("page", "1"); // tetap reset ke halaman 1
 
     router.push(`/explore-events?${params.toString()}`);
+    setLocalFilters({});
+    setKeyword("");
     setCurrentPage(1);
   };
 
@@ -101,20 +139,30 @@ export default function ExploreEventsPage() {
 
           {/* Main Content */}
           <div className="mt-10 flex-1">
-            {/* Events Grid */}
-            <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-              {currentEvents.map((event, index) => (
-                <EventCard key={index} event={event} />
-              ))}
-            </div>
+            {/* Loading State */}
+            {isLoading ? (
+              <div className="flex flex-col items-center gap-2">
+                <Loader className="h-4 w-4 animate-spin" />
+                <p className="text-center text-gray-500">Loading events...</p>
+              </div>
+            ) : eventsData.length === 0 ? (
+              <p className="text-center text-gray-500">No events found.</p>
+            ) : (
+              <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+                {eventsData.map((event) => (
+                  <EventCard key={event.id} event={event} />
+                ))}
+              </div>
+            )}
 
             {/* Pagination */}
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
               itemsPerPage={itemsPerPage}
-              totalItems={eventsData.length}
+              totalItems={totalItems}
               onPageChange={handlePageChange}
+              onItemsPerPageChange={handleItemsPerPageChange}
             />
           </div>
         </div>
