@@ -129,7 +129,7 @@ export default function ExploreEventsPage() {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="mx-auto w-full">
-        <div className="flex gap-6">
+        <div className="flex flex-col gap-6 md:flex-row">
           {/* Filter Sidebar */}
           <FilterSidebar
             filters={{ location, category }}

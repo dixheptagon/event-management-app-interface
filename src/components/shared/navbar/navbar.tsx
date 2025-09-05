@@ -3,12 +3,24 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Compass, Ticket, User, Search, Menu, X } from "lucide-react";
+import {
+  Compass,
+  Ticket,
+  User,
+  Search,
+  Menu,
+  X,
+  LayoutDashboard,
+  CalendarPlus,
+  Settings,
+} from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import UserMenuNavbar from "./navbar.items";
 import useEventsStore from "@/stores/explore.events.store";
+import useAuthStore from "@/stores/auth.store";
+import { SheetClose } from "@/components/ui/sheet";
 
 export default function Navbar() {
   const searchParams = useSearchParams();
@@ -20,6 +32,7 @@ export default function Navbar() {
   // State for styling
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { role, clearAuth, fullname } = useAuthStore();
 
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -27,6 +40,11 @@ export default function Navbar() {
       router.push(`/explore-events?keyword=${encodeURIComponent(keyword)}`);
       setIsMenuOpen(false); // close menu kalau dari mobile
     }
+  };
+
+  const handleLogout = () => {
+    clearAuth();
+    router.push("/"); // Redirect ke home setelah logout
   };
 
   return (
@@ -136,21 +154,80 @@ export default function Navbar() {
 
           {/* Mobile Menu Dropdown */}
           {isMenuOpen && (
-            <div className="space-y-4 pb-4 md:hidden">
-              <Link
-                href="/explore-events"
-                className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <Compass className="h-4 w-4" /> Explore Events
-              </Link>
-              <Link
-                href="/tickets"
-                className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <Ticket className="h-4 w-4" /> My Ticket
-              </Link>
+            <div>
+              <div className="m-3 grid grid-cols-2 space-y-2 rounded-lg bg-[#06205c] p-4 md:hidden">
+                <Link
+                  href="/explore-events"
+                  className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Compass className="h-4 w-4" /> Explore Events
+                </Link>
+                <Link
+                  href="/dashboard"
+                  className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Ticket className="h-4 w-4" /> My Ticket
+                </Link>
+
+                <Link
+                  href="/dashboard"
+                  className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <LayoutDashboard className="h-4 w-4" /> Dashboard
+                </Link>
+
+                {role === "EVENT_ORGANIZER" ? (
+                  <Link
+                    href="/create-event"
+                    className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <CalendarPlus className="h-4 w-4" /> Create Event
+                  </Link>
+                ) : (
+                  ""
+                )}
+
+                <Link
+                  href="/dashboard"
+                  className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Settings className="h-4 w-4" /> Settings
+                </Link>
+              </div>
+
+              {/* Button Auth */}
+              <div className="mb-4 flex flex-col gap-3">
+                {fullname ? (
+                  <Button
+                    className="w-full bg-blue-600 text-white hover:bg-blue-700"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                ) : (
+                  <div className="flex flex-col gap-3">
+                    <Link href="/login">
+                      <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
+                        Log In
+                      </Button>
+                    </Link>
+                    <Link href="/register">
+                      <Button
+                        variant="outline"
+                        className="w-full border-blue-600 text-blue-600 hover:bg-blue-50 hover:text-blue-600"
+                      >
+                        Register
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+              </div>
+
               <div onClick={() => setIsMenuOpen(false)}></div>
             </div>
           )}

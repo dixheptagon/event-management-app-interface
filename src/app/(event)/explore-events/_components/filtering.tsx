@@ -1,6 +1,6 @@
 "use client";
 
-import { FunnelPlus } from "lucide-react";
+import { FunnelPlus, X, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +11,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
-import { set } from "date-fns";
 import useEventsStore from "@/stores/explore.events.store";
 
 export const FilterSidebar = ({
@@ -19,6 +18,8 @@ export const FilterSidebar = ({
   onFiltersChange,
   onResetFilters,
 }: any) => {
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+
   const categories = [
     "All Events",
     "Music & Concerts",
@@ -32,7 +33,6 @@ export const FilterSidebar = ({
     "Other",
   ];
 
-  // local state → biar user bisa ketik dulu, baru submit saat klik Apply
   const { setLocalFilters, localFilters, keyword }: any = useEventsStore();
 
   const updateFilter = (key: string, value: string) => {
@@ -48,22 +48,40 @@ export const FilterSidebar = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onFiltersChange(localFilters); // update ke parent
+    onFiltersChange(localFilters);
+    setIsMobileFilterOpen(false); // Close mobile modal after applying
   };
 
-  return (
-    <div className="mt-10 h-fit w-64 rounded-lg bg-white p-6 shadow-sm">
+  const handleReset = () => {
+    onResetFilters();
+    setIsMobileFilterOpen(false); // Close mobile modal after reset
+  };
+
+  // Filter content component (reusable for both desktop and mobile)
+  const FilterContent = () => (
+    <>
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-lg font-semibold text-gray-900">Filter</h2>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onResetFilters}
-          disabled={!isFilterActive}
-        >
-          Reset
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleReset}
+            disabled={!isFilterActive}
+          >
+            Reset
+          </Button>
+          {/* Close button for mobile */}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsMobileFilterOpen(false)}
+            className="md:hidden"
+          >
+            <X size={16} />
+          </Button>
+        </div>
       </div>
 
       {/* Form */}
@@ -112,6 +130,46 @@ export const FilterSidebar = ({
           Apply
         </Button>
       </form>
-    </div>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile Filter Button */}
+      <div className="md:hidden">
+        <Button
+          onClick={() => setIsMobileFilterOpen(true)}
+          variant="outline"
+          className="flex w-full items-center gap-2"
+        >
+          <Filter size={16} />
+          Filter
+          {isFilterActive && (
+            <span className="ml-1 h-2 w-2 rounded-full bg-[#15306d]" />
+          )}
+        </Button>
+      </div>
+
+      {/* Desktop Sidebar */}
+      <div className="mt-10 hidden h-fit w-64 rounded-lg bg-white p-6 shadow-sm md:block">
+        <FilterContent />
+      </div>
+
+      {/* Mobile Modal Overlay */}
+      {isMobileFilterOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/50"
+            onClick={() => setIsMobileFilterOpen(false)}
+          />
+
+          {/* Modal */}
+          <div className="fixed inset-x-0 bottom-0 z-10 rounded-t-lg bg-white p-6 shadow-xl">
+            <FilterContent />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
