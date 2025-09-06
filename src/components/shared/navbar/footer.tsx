@@ -72,7 +72,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/contact"
+                  href="/dashboard/my-tickets"
                   className="text-sm text-gray-300 transition-colors hover:text-white"
                 >
                   My Ticket
@@ -144,7 +144,7 @@ export default function Footer() {
                   type="submit"
                   className="rounded-l-none bg-blue-600 hover:bg-blue-700"
                 >
-                  Join
+                  <Link href="/under-construction">Join</Link>
                 </Button>
               </form>
             </div>
