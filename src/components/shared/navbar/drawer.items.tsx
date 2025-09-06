@@ -14,7 +14,7 @@ export default function UserMenuDrawer() {
       {/* Switch Role */}
       {role === "CUSTOMER" ? (
         <Link
-          href="/" // Ganti dengan URL yang sesuai
+          href="/under-construction" // Ganti dengan URL yang sesuai
           className="flex flex-col gap-3 rounded-md p-2 text-sm font-medium text-blue-600 hover:bg-gray-200 hover:text-blue-700"
         >
           <span className="text-gray-700">Switch Account to </span>
@@ -25,7 +25,7 @@ export default function UserMenuDrawer() {
         </Link>
       ) : (
         <Link
-          href="/" // Ganti dengan URL yang sesuai
+          href="/under-construction" // Ganti dengan URL yang sesuai
           className="flex flex-col gap-3 rounded-md p-2 text-sm font-medium text-blue-600 hover:bg-gray-200 hover:text-blue-700"
         >
           <span>Switch Account to </span>
