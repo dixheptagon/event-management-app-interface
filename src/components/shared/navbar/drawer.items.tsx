@@ -56,19 +56,19 @@ export default function UserMenuDrawer() {
       )}
 
       <Link
-        href="/dashboard"
+        href="/dashboard/my-tickets"
         className="block rounded-md px-2 py-3 text-sm font-medium text-gray-700 hover:bg-gray-200"
       >
         My Ticket
       </Link>
       <Link
-        href="/dashboard"
+        href="/dashboard/my-account"
         className="block rounded-md px-2 py-3 text-sm font-medium text-gray-700 hover:bg-gray-200"
       >
         Dashboard
       </Link>
       <Link
-        href="/dashboard"
+        href="/dashboard/settings"
         className="block rounded-md px-2 py-3 text-sm font-medium text-gray-700 hover:bg-gray-200"
       >
         Settings

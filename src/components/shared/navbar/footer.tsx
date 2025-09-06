@@ -64,7 +64,7 @@ export default function Footer() {
 
               <li>
                 <Link
-                  href="/about"
+                  href="/dashboard/my-account"
                   className="text-sm text-gray-300 transition-colors hover:text-white"
                 >
                   Dashboard

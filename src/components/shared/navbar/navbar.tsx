@@ -164,7 +164,7 @@ export default function Navbar() {
                   <Compass className="h-4 w-4" /> Explore Events
                 </Link>
                 <Link
-                  href="/dashboard"
+                  href="/dashboard/my-tickets"
                   className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -172,7 +172,7 @@ export default function Navbar() {
                 </Link>
 
                 <Link
-                  href="/dashboard"
+                  href="/dashboard/my-account"
                   className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -192,7 +192,7 @@ export default function Navbar() {
                 )}
 
                 <Link
-                  href="/dashboard"
+                  href="/dashboard/settings"
                   className="flex items-center gap-2 text-sm font-medium hover:text-blue-300"
                   onClick={() => setIsMenuOpen(false)}
                 >
