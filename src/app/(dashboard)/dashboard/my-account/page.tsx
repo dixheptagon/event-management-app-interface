@@ -38,7 +38,6 @@ export default function Home() {
         },
       });
 
-      console.log(response);
       setUserData(response?.data?.data);
     } catch (error) {
       toast.error("Failed to get user personal info, please try again later!");
@@ -56,6 +55,10 @@ export default function Home() {
 
   useEffect(() => {
     if (token) onGetUserPersonalInfo();
+    if (!token) {
+      toast.error("You are not logged in, please login first!");
+      router.replace("/login");
+    }
   }, [token]);
 
   if (isLoading) {

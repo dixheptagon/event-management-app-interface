@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Star,
   Send,
@@ -21,12 +21,24 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import useAuthStore from "@/stores/auth.store";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const EventReviewComponent = () => {
+  const router = useRouter();
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
   const [hoveredStar, setHoveredStar] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const { token } = useAuthStore();
+
+  useEffect(() => {
+    if (!token) {
+      toast.error("You are not logged in, please login first!");
+      router.replace("/login");
+    }
+  }, [token]);
 
   const handleStarClick = (starValue: number) => {
     setRating(starValue);
