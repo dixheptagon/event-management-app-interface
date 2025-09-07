@@ -72,9 +72,13 @@ export default function ExploreEventsPage() {
   };
 
   // Refetch saat filter atau halaman/limit berubah
-  useEffect(() => {
-    onGetEvents();
-  }, [keyword, location, category, currentPage, itemsPerPage]);
+  useEffect(
+    () => {
+      onGetEvents();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [keyword, location, category, currentPage, itemsPerPage],
+  );
 
   // Ubah halaman
   const handlePageChange = (page: number) => {

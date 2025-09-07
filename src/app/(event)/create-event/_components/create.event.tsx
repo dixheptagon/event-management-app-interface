@@ -42,6 +42,7 @@ const CreateEventPage: React.FC = () => {
         },
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [role]);
 
   // Handle if do not have token need to login first
@@ -52,6 +53,7 @@ const CreateEventPage: React.FC = () => {
         autoClose: 5000,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const handleSubmit = async (values: EventFormValues, isDraft = false) => {

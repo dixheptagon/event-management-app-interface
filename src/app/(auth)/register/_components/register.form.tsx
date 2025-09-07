@@ -56,6 +56,7 @@ export default function RegisterForm() {
         validateReferral();
       }, 500);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [referralFromParams]);
 
   // Handle Register Form Submision

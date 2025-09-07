@@ -1,4 +1,4 @@
-import { Formik, Form, Field, FieldArray, FormikProps } from "formik";
+import { FieldArray, FormikProps } from "formik";
 import { EventFormValues } from "../_types/types.create.event";
 import { Plus, Tag, Trash2 } from "lucide-react";
 import FormField from "./form.fields";

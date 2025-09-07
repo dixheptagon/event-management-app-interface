@@ -37,13 +37,17 @@ export default function UnderConstruction() {
   }, []);
 
   // Rotating tools animation
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTool((prev) => (prev + 1) % tools.length);
-    }, 1000);
+  useEffect(
+    () => {
+      const interval = setInterval(() => {
+        setCurrentTool((prev) => (prev + 1) % tools.length);
+      }, 1000);
 
-    return () => clearInterval(interval);
-  }, []);
+      return () => clearInterval(interval);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-orange-50 via-yellow-50 to-amber-50 p-4">

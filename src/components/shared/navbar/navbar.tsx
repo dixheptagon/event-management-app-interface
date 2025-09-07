@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import UserMenuNavbar from "./navbar.items";
 import useEventsStore from "@/stores/explore.events.store";
 import useAuthStore from "@/stores/auth.store";

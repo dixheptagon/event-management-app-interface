@@ -31,9 +31,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  useEffect(() => {
-    if (token) sessionLogin();
-  }, [token]);
+  useEffect(
+    () => {
+      if (token) sessionLogin();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [token],
+  );
 
   return <>{children}</>;
 };

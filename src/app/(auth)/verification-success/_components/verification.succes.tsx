@@ -29,6 +29,7 @@ export default function VerifyEmailPage() {
       setError("Invalid verification link");
       setLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const verifyEmail = async (verificationToken: string) => {

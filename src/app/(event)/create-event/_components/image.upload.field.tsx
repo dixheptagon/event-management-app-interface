@@ -1,12 +1,12 @@
 import { FormikProps } from "formik";
 import { EventFormValues } from "../_types/types.create.event";
 import { useState } from "react";
-import { Image, Trash2, Upload } from "lucide-react";
+import { Image as ImageIcon, Trash2, Upload } from "lucide-react";
 import NextImage from "next/image";
 const ImageUploadField: React.FC<{
   formikProps: FormikProps<EventFormValues>;
 }> = ({ formikProps }) => {
-  const { values, setFieldValue, errors, touched } = formikProps;
+  const { setFieldValue, errors, touched } = formikProps;
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +28,7 @@ const ImageUploadField: React.FC<{
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
       <h2 className="mb-4 flex items-center text-xl font-semibold text-gray-900">
-        <Image className="mr-2 h-5 w-5 text-blue-600" />
+        <ImageIcon className="mr-2 h-5 w-5 text-blue-600" aria-hidden="true" />
         Event Image
       </h2>
 

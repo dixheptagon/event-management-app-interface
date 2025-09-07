@@ -37,6 +37,7 @@ const EventReviewComponent = () => {
       toast.error("You are not logged in, please login first!");
       router.replace("/login");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const handleStarClick = (starValue: number) => {

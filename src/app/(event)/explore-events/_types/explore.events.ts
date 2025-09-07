@@ -16,20 +16,20 @@ interface Filters {
   isOnline: boolean;
 }
 
-interface FilterSidebarProps {
-  filters: Filters;
-  onFiltersChange: (filters: Filters) => void;
-  onResetFilters: () => void;
-}
+// interface FilterSidebarProps {
+//   filters: Filters;
+//   onFiltersChange: (filters: Filters) => void;
+//   onResetFilters: () => void;
+// }
 
-interface EventCardProps {
-  event: Event;
-}
+// interface EventCardProps {
+//   event: Event;
+// }
 
-interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-  itemsPerPage: number;
-  totalItems: number;
-  onPageChange: (page: number) => void;
-}
+// interface PaginationProps {
+//   currentPage: number;
+//   totalPages: number;
+//   itemsPerPage: number;
+//   totalItems: number;
+//   onPageChange: (page: number) => void;
+// }

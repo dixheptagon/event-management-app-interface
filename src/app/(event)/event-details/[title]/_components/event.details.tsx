@@ -86,9 +86,13 @@ const EventDetailsPage = () => {
     }
   };
 
-  useEffect(() => {
-    onGetEventDetails();
-  }, [eventId]);
+  useEffect(
+    () => {
+      onGetEventDetails();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [eventId],
+  );
 
   const tabs = [
     { id: "description", label: "Description" },
