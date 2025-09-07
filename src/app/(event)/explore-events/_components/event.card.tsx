@@ -15,7 +15,7 @@ export const EventCard = ({ event, index }: any) => {
     >
       {/* Gambar */}
       <div className="aspect-[17/9] w-full">
-        <Image
+        <img
           src={event.eventMedia[0]?.url || "/placeholder-event.jpg"}
           alt={event.title}
           className="h-full w-full rounded-t-2xl object-cover object-center"

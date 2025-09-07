@@ -122,7 +122,7 @@ const EventDetailsPage = () => {
             {/* Event Logo/Image - positioned on the right */}
             <div className="absolute bottom-2 px-7 md:top-20 md:right-2">
               <div className="md flex h-48 w-72 items-center justify-center rounded-lg md:h-64 md:w-128">
-                <Image
+                <img
                   src={eventDetails?.eventMedia[0]?.url ?? ""}
                   alt={eventDetails?.title ?? ""}
                   className="rounded-lg object-cover"
