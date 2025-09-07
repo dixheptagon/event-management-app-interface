@@ -36,7 +36,7 @@ const ImageUploadField: React.FC<{
         {previewUrl ? (
           <div className="relative">
             <div className="aspect-[21/10] w-full">
-              <NextImage
+              <img
                 src={previewUrl}
                 alt="Event preview"
                 className="h-full w-full rounded-lg object-cover object-center"

@@ -145,7 +145,7 @@ export default function FeaturedEvents() {
                     >
                       {/* Gambar */}
                       <div className="aspect-[17/9] w-full">
-                        <Image
+                        <img
                           src={
                             event.eventMedia[0]?.url || "/placeholder-event.jpg"
                           }
