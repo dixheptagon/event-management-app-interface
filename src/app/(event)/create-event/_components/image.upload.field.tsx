@@ -1,8 +1,7 @@
-import { Formik, Form, Field, FieldArray, FormikProps } from "formik";
+import { FormikProps } from "formik";
 import { EventFormValues } from "../_types/types.create.event";
 import { useState } from "react";
 import { Image, Trash2, Upload } from "lucide-react";
-
 const ImageUploadField: React.FC<{
   formikProps: FormikProps<EventFormValues>;
 }> = ({ formikProps }) => {

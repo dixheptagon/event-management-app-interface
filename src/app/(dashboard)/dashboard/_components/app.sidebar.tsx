@@ -1,14 +1,4 @@
-import {
-  Calendar,
-  Compass,
-  Home,
-  Inbox,
-  Search,
-  Settings,
-  Ticket,
-  TicketCheck,
-  UserStar,
-} from "lucide-react";
+import { Compass, Home, Settings, TicketCheck, UserStar } from "lucide-react";
 
 import {
   Sidebar,

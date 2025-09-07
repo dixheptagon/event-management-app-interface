@@ -1,4 +1,3 @@
-import { date } from "yup";
 import { EventFormValues } from "../_types/types.create.event";
 
 // Constants

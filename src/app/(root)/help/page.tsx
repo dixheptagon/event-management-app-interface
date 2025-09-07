@@ -1,7 +1,6 @@
 // app/help/page.tsx
 "use client";
 
-import { Metadata } from "next";
 import {
   HelpCircle,
   ChevronDown,
@@ -11,12 +10,10 @@ import {
   MessageCircle,
   Shield,
   FileText,
-  Clock,
   CheckCircle,
   AlertCircle,
   Users,
   CreditCard,
-  Star,
   Search,
 } from "lucide-react";
 import { useState } from "react";
@@ -276,7 +273,7 @@ export default function HelpPage() {
                   <div>
                     <h3 className="text-lg font-semibold">Email Support</h3>
                     <p className="text-sm text-gray-300">
-                      We'll respond within 24 hours
+                      We&apos;ll respond within 24 hours
                     </p>
                   </div>
                 </div>

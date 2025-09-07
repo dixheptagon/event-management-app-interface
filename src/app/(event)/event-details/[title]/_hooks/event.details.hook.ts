@@ -8,7 +8,6 @@ import {
   BreadcrumbStructuredData,
 } from "@/app/(event)/event-details/[title]/_types/event.details.type";
 import formatDateRange from "@/utils/format.date.range";
-import { formatTimeRange } from "@/utils/format.time.range";
 import getLowestPriceLabel from "@/utils/getLowestPrice";
 
 interface UseEventMetadataProps {

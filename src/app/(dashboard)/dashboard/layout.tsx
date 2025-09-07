@@ -4,14 +4,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./_components/app.sidebar";
 import { Separator } from "@radix-ui/react-separator";
 import Link from "next/link";
-import {
-  CalendarPlus,
-  Compass,
-  Ticket,
-  Menu,
-  X,
-  MoreHorizontal,
-} from "lucide-react";
+import { CalendarPlus, Compass, Ticket, X, MoreHorizontal } from "lucide-react";
 import useAuthStore from "@/stores/auth.store";
 import { usePathname } from "next/navigation";
 import { useState } from "react";

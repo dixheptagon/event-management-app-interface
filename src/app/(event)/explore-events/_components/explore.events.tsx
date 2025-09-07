@@ -7,7 +7,6 @@ import axiosInstance from "@/utils/axios.instance";
 import { toast } from "react-toastify";
 import { useSearchParams, useRouter } from "next/navigation";
 import useEventsStore from "@/stores/explore.events.store";
-import { set } from "date-fns";
 import { Loader } from "lucide-react";
 
 // Main Component

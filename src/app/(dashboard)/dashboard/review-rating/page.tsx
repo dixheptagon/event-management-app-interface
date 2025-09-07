@@ -9,7 +9,6 @@ import {
   Users,
   Clock,
   MessageSquare,
-  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -188,7 +187,7 @@ const EventReviewComponent = () => {
                       Rate Your Experience
                     </DialogTitle>
                     <p className="text-center text-gray-600">
-                      How was "CINTA KALA SENJA" event?
+                      How was &quot;CINTA KALA SENJA&quot; event?
                     </p>
                   </DialogHeader>
 
@@ -272,7 +271,8 @@ const EventReviewComponent = () => {
               <li className="flex items-start gap-2">
                 <span className="mt-1 text-blue-500">•</span>
                 <span>
-                  Share specific details about what you liked or didn't like
+                  Share specific details about what you liked or didn&apos;t
+                  like
                 </span>
               </li>
               <li className="flex items-start gap-2">

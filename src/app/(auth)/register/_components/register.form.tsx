@@ -22,7 +22,6 @@ import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { useReferralValidation } from "../_hooks/useReferralValidation";
 import ReferralInput from "./referral.input";
-import { ref } from "process";
 
 export default function RegisterForm() {
   const router = useRouter();

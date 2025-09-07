@@ -1,7 +1,6 @@
-import axiosInstance from "@/utils/axios.instance";
 import formatDateRange from "@/utils/format.date.range";
-import formatPrice from "@/utils/format.price.idr";
 import getLowestPriceLabel from "@/utils/getLowestPrice";
+import Image from "next/image";
 import Link from "next/link";
 
 // Event Card Component
@@ -16,7 +15,7 @@ export const EventCard = ({ event, index }: any) => {
     >
       {/* Gambar */}
       <div className="aspect-[17/9] w-full">
-        <img
+        <Image
           src={event.eventMedia[0]?.url || "/placeholder-event.jpg"}
           alt={event.title}
           className="h-full w-full rounded-t-2xl object-cover object-center"

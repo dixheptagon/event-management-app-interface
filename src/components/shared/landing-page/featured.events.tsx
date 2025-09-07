@@ -7,59 +7,10 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import getLowestPriceLabel from "@/utils/getLowestPrice";
+import formatDateRange from "@/utils/format.date.range";
+import Image from "next/image";
 
 // Fungsi: Format tanggal dari ISO ke DD Mon - DD Mon YYYY
-function formatDateRange(startDateStr: string, endDateStr: string): string {
-  const startDate = new Date(startDateStr);
-  const endDate = new Date(endDateStr);
-
-  const options: Intl.DateTimeFormatOptions = {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  };
-
-  const startFormatted = startDate.toLocaleDateString("en-US", options);
-  const endFormatted = endDate.toLocaleDateString("en-US", options);
-
-  // Jika tanggal sama, tampilkan sekali
-  if (startDate.toDateString() === endDate.toDateString()) {
-    return startFormatted;
-  }
-
-  // Jika bulan sama, cukup ubah tanggalnya saja
-  if (
-    startDate.getMonth() === endDate.getMonth() &&
-    startDate.getFullYear() === endDate.getFullYear()
-  ) {
-    return `${startDate.getDate()} - ${endDate.getDate()} ${startDate.toLocaleString(
-      "en-US",
-      { month: "short" },
-    )} ${startDate.getFullYear()}`;
-  }
-
-  // Format umum
-  return `${startFormatted} - ${endFormatted}`;
-}
-
-// Fungsi: Format harga (PAID atau FREE)
-function formatPrice(
-  ticketTypes: { price: number; ticketType: string }[],
-): string {
-  const freeTicket = ticketTypes.find((t) => t.ticketType === "FREE");
-  if (freeTicket) return "FREE";
-
-  const paidTicket = ticketTypes.find((t) => t.ticketType === "PAID");
-  if (paidTicket) {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(paidTicket.price);
-  }
-
-  return "FREE"; // fallback
-}
 
 export default function FeaturedEvents() {
   const [eventsData, setEventsData] = useState<any[]>([]);
@@ -194,7 +145,7 @@ export default function FeaturedEvents() {
                     >
                       {/* Gambar */}
                       <div className="aspect-[17/9] w-full">
-                        <img
+                        <Image
                           src={
                             event.eventMedia[0]?.url || "/placeholder-event.jpg"
                           }

@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import useAuthStore from "@/stores/auth.store";
-import { CalendarPlus, Compass, ShieldUser, Ticket } from "lucide-react";
+import { CalendarPlus, Compass, Ticket } from "lucide-react";
 import LoginSignUpDrawer from "./login.signup.drawer";
 
 export default function UserMenuNavbar() {

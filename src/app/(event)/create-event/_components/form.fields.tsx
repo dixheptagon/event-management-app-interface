@@ -4,7 +4,6 @@ import { FormFieldProps } from "../_types/types.create.event";
 import {
   Select,
   SelectContent,
-  SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";

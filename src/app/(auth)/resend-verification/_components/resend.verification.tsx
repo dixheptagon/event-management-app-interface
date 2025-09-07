@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { Loader, Mail, CheckCircle, AlertCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import { ValidationResendVerificationSchema } from "../_schemas/validation.resend.verification.schema";
 import axiosInstance from "@/utils/axios.instance";
@@ -15,8 +14,6 @@ import { AxiosError } from "axios";
 import { IResendVerification } from "../_types/resend.verification.type";
 
 export default function ResendVerificationForm() {
-  const router = useRouter();
-
   // Loading state
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -84,8 +81,8 @@ export default function ResendVerificationForm() {
                 Resend Verification Email
               </h1>
               <p className="mb-6 text-center text-sm text-gray-600">
-                Enter your email address and we'll send you a new verification
-                link to activate your account.
+                Enter your email address and we&apos;ll send you a new
+                verification link to activate your account.
               </p>
             </>
           ) : (
@@ -97,7 +94,7 @@ export default function ResendVerificationForm() {
                 Email Sent Successfully!
               </h1>
               <p className="mb-6 text-center text-sm text-gray-600">
-                We've sent a new verification email to{" "}
+                We&apos;ve sent a new verification email to{" "}
                 <strong>{formik.values.email}</strong>. Please check your inbox
                 and click the activation link.
               </p>
@@ -160,8 +157,8 @@ export default function ResendVerificationForm() {
                     Verification email sent!
                   </p>
                   <p className="mt-1 text-sm text-green-700">
-                    The email will expire in 2 hours. If you don't see it, check
-                    your spam folder.
+                    The email will expire in 2 hours. If you don&apos;t see it,
+                    check your spam folder.
                   </p>
                 </div>
               </div>
@@ -193,7 +190,7 @@ export default function ResendVerificationForm() {
           </p>
 
           <p className="text-center text-sm text-slate-600">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               href="/register"
               className="font-medium text-blue-600 hover:underline"

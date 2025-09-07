@@ -503,7 +503,8 @@ const PromotionsField = ({ formikProps }: PromotionsFieldProps) => {
                 <Tag className="mx-auto mb-3 h-12 w-12 text-gray-300" />
                 <p className="text-sm">No promotions added yet</p>
                 <p className="text-xs">
-                  Click "Add Promotion" to create event discounts and coupons
+                  Click &quot;Add Promotion&quot; to create event discounts and
+                  coupons
                 </p>
               </div>
             )}

@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import {
   Compass,
   Ticket,
-  User,
   Search,
   Menu,
   X,
@@ -20,10 +19,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import UserMenuNavbar from "./navbar.items";
 import useEventsStore from "@/stores/explore.events.store";
 import useAuthStore from "@/stores/auth.store";
-import { SheetClose } from "@/components/ui/sheet";
 
 export default function Navbar() {
-  const searchParams = useSearchParams();
   const router = useRouter();
 
   const keyword = useEventsStore((state) => state.keyword);

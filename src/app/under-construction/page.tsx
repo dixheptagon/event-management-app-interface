@@ -126,7 +126,7 @@ export default function UnderConstruction() {
         {/* Description */}
         <div className="animate-fade-in-up mb-10 delay-500">
           <p className="mx-auto mb-4 max-w-md text-lg leading-relaxed text-gray-700">
-            We're working hard to bring you something amazing! Our team is
+            We&apos;re working hard to bring you something amazing! Our team is
             putting the finishing touches on this page.
           </p>
 

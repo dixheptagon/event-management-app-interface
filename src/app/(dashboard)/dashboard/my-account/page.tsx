@@ -2,6 +2,7 @@
 
 import useAuthStore from "@/stores/auth.store";
 import axiosInstance from "@/utils/axios.instance";
+import { AxiosError } from "axios";
 import {
   CircleUserRound,
   Mail,
@@ -40,7 +41,11 @@ export default function Home() {
 
       setUserData(response?.data?.data);
     } catch (error) {
-      toast.error("Failed to get user personal info, please try again later!");
+      const err = error as AxiosError<{ error: string }>;
+      toast.error(
+        "Failed to get user personal info, please try again later!" +
+          err.response?.data?.error,
+      );
     } finally {
       setIsLoading(false);
     }
