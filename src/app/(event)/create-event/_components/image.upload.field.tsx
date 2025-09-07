@@ -2,6 +2,7 @@ import { FormikProps } from "formik";
 import { EventFormValues } from "../_types/types.create.event";
 import { useState } from "react";
 import { Image, Trash2, Upload } from "lucide-react";
+import NextImage from "next/image";
 const ImageUploadField: React.FC<{
   formikProps: FormikProps<EventFormValues>;
 }> = ({ formikProps }) => {
@@ -35,7 +36,7 @@ const ImageUploadField: React.FC<{
         {previewUrl ? (
           <div className="relative">
             <div className="aspect-[21/10] w-full">
-              <img
+              <NextImage
                 src={previewUrl}
                 alt="Event preview"
                 className="h-full w-full rounded-lg object-cover object-center"
